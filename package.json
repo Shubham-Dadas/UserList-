@@ -8,7 +8,7 @@
     "jest-jasmine2": "^28.0.3",
     "jsdom": "^19.0.0",
     "react": "^16.9.0",
-    "react-dom": "^16.94.0",
+    "react-dom": "^16.9.0",
     "react-scripts": "5.0.1"
   },
   "jest": {
