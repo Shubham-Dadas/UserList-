@@ -1,9 +1,8 @@
 import React from "react";
-import toJson from "enzyme-to-json"
-import {shallow,mount} from "enzyme";
+import toJson from "enzyme-to-json";
+import { shallow, mount } from "enzyme";
 // import { render, screen } from '@testing-library/react';
 import App from "./App";
-
 
 // test('renders learn react link', () => {
 //   // render(<App />);
@@ -17,6 +16,6 @@ describe("App component", () => {
     // console.log(component.debug());
     // @ts-ignore
     expect(toJson(component)).toMatchSnapshot();
-    expect(1+2).toBe(3)
+    expect(1 + 2).toBe(3);
   });
 });
