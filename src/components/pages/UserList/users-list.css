@@ -1,0 +1,25 @@
+.user-list-container {
+    width: 100%;
+    padding: 20px;
+    overflow-x: auto;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #5A1E5C;
+            color: white;
+        }
+
+        td {
+            text-transform: capitalize;
+        }
+    }
+}
