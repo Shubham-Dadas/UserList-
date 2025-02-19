@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getUsers } from "../../../services/service";
 import UserRow from "../UserRow/UserRow";
-import "./users-list.css";
+import "./users-list.scss";
 
 interface User {
   id: number;
@@ -17,8 +17,9 @@ interface State {
 }
 
 class UsersList extends Component<{}, State> {
-  state: { users: any[]; loading: boolean };
-  constructor(props: {}) {
+  state: { users: User[]; loading: boolean };
+  
+  constructor(props) {
     super(props);
     this.state = {
       users: [],

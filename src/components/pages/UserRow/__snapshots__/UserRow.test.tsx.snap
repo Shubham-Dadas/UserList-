@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`userRow 1`] = `
+<tr>
+  <td>
+    Shubham
+  </td>
+  <td>
+    shubham@gmail.com
+  </td>
+  <td>
+    male
+  </td>
+  <td>
+    active
+  </td>
+</tr>
+`;
+
+exports[`userRow snapshot matching 1`] = `
+<tr>
+  <td>
+    Shubham Dadas
+  </td>
+  <td>
+    shubham.dadas@15ce.com
+  </td>
+  <td>
+    male
+  </td>
+  <td>
+    active
+  </td>
+</tr>
+`;

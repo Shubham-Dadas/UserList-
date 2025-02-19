@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`function call when component mounts 1`] = `
+<UsersList>
+  <div
+    className="user-list-container"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Email
+          </th>
+          <th>
+            Gender
+          </th>
+          <th>
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <UserRow
+          key="7705369"
+          user={
+            Object {
+              "email": "shubham.dadas@15ce.com",
+              "gender": "male",
+              "id": 7705369,
+              "name": "Shubham Dadas",
+              "status": "active",
+            }
+          }
+        >
+          <tr>
+            <td>
+              Shubham Dadas
+            </td>
+            <td>
+              shubham.dadas@15ce.com
+            </td>
+            <td>
+              male
+            </td>
+            <td>
+              active
+            </td>
+          </tr>
+        </UserRow>
+        <UserRow
+          key="7704657"
+          user={
+            Object {
+              "email": "nambeesan_bankim@waelchi.example",
+              "gender": "male",
+              "id": 7704657,
+              "name": "Bankim Nambeesan",
+              "status": "active",
+            }
+          }
+        >
+          <tr>
+            <td>
+              Bankim Nambeesan
+            </td>
+            <td>
+              nambeesan_bankim@waelchi.example
+            </td>
+            <td>
+              male
+            </td>
+            <td>
+              active
+            </td>
+          </tr>
+        </UserRow>
+        <UserRow
+          key="7704656"
+          user={
+            Object {
+              "email": "chaturaanan_malik@wilkinson.example",
+              "gender": "female",
+              "id": 7704656,
+              "name": "Chaturaanan Malik",
+              "status": "inactive",
+            }
+          }
+        >
+          <tr>
+            <td>
+              Chaturaanan Malik
+            </td>
+            <td>
+              chaturaanan_malik@wilkinson.example
+            </td>
+            <td>
+              female
+            </td>
+            <td>
+              inactive
+            </td>
+          </tr>
+        </UserRow>
+      </tbody>
+    </table>
+  </div>
+</UsersList>
+`;

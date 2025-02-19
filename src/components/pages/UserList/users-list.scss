@@ -1,0 +1,38 @@
+body {
+    background-color: rgba(128, 128, 128, 0.4); 
+}
+
+.user-list-container {
+    width: 80%; 
+    padding: 20px;
+    margin: 0 auto; 
+    overflow-x: auto;
+
+    table {
+        width: 100%;
+        max-width: 100%; 
+        border-collapse: collapse; 
+        background-color:#fff;
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border: 1.5px solid #000000;
+        }
+
+        th {
+            background-color: #6A1E55; 
+            color: white; 
+        }
+
+        td {
+            text-transform: capitalize;
+        }
+
+        
+        td:nth-child(2),
+        th:nth-child(2) {
+            width: 40%; 
+        }
+    }
+}
