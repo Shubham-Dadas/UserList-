@@ -2,9 +2,6 @@ import React from "react";
 import UserRow from "./UserRow";
 import { shallow } from "enzyme";
 
-jest.mock("../../../services/service", () => ({
-  getUsers: jest.fn(),
-}));
 
  const mockUser = {
    id: 7705369,
