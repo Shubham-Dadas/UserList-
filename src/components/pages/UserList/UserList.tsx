@@ -18,7 +18,7 @@ interface State {
 
 class UsersList extends Component<{}, State> {
   state: { users: User[]; loading: boolean };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -35,27 +35,27 @@ class UsersList extends Component<{}, State> {
   render() {
     const { users, loading } = this.state;
 
-    if (loading) {
-      return <p>Loading users...</p>;
-    }
-
     return (
       <div className="user-list-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Gender</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <UserRow key={user.id} user={user} />
-            ))}
-          </tbody>
-        </table>
+        {loading ? (
+          <p>Loading users...</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <UserRow key={user.id} user={user} />
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     );
   }

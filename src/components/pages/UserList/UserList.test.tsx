@@ -10,7 +10,6 @@ import UsersList from "./UserList";
 import { getUsers } from "../../../services/service";
 import UserRow from "../UserRow/UserRow";
 
-
 const users = [
   {
     id: 7705369,
@@ -35,12 +34,11 @@ const users = [
   },
 ];
 
+ const promise = Promise.resolve(users);
+ (getUsers as jest.Mock).mockReturnValue(promise);
 
 
 it("function call when component mounts", () => {
-  const promise = Promise.resolve(users);
-  (getUsers as jest.Mock).mockReturnValue(promise);
-
   const component = mount(<UsersList />);
  
   expect(getUsers).toHaveBeenCalled();
@@ -57,9 +55,6 @@ it("function call when component mounts", () => {
 
 
 it("loading users content test", () => {
-  const promise = Promise.resolve(users);
-  (getUsers as jest.Mock).mockReturnValue(promise);
-
   const component = mount(<UsersList />);
   return promise.then(() => {
     // @ts-ignore
@@ -69,8 +64,6 @@ it("loading users content test", () => {
 
 
 it("userRow render testcase", () => {
-     const promise = Promise.resolve(users);
-  (getUsers as jest.Mock).mockReturnValue(promise);
   const component = mount(<UsersList />)
   return promise.then(() => {
     // @ts-ignore

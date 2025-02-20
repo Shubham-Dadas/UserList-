@@ -4,9 +4,7 @@ import UsersList from "./components/pages/UserList/UserList";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-         <UsersList/>
-      </header>
+      <UsersList />
     </div>
   );
 }
