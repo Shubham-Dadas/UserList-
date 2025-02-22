@@ -16,7 +16,7 @@ const users = [
     name: "Shubham Dadas",
     email: "shubham.dadas@15ce.com",
     gender: "male",
-    status: "active",
+    status: "active", 
   },
   {
     id: 7704657,
@@ -40,7 +40,7 @@ const users = [
 
 it("function call when component mounts", () => {
   const component = mount(<UsersList />);
- 
+
   expect(getUsers).toHaveBeenCalled();
   return promise.then(() => {
  
@@ -48,7 +48,7 @@ it("function call when component mounts", () => {
     
     // @ts-ignore
     expect(toJson(component)).toMatchSnapshot();
-  
+   
   });
 });
 

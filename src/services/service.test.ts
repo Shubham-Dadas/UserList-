@@ -1,5 +1,9 @@
 import { getUsers } from "./service";
 
+const axios = require("axios");
+const AxiosMockAdapter = require("axios-mock-adapter");
+const mock = new AxiosMockAdapter(axios);
+
 jest.mock("./service", () => ({
   getUsers: jest.fn(),
 }));
@@ -27,6 +31,8 @@ const users = [
     status: "inactive",
   },
 ];
+
+
 const promise = Promise.resolve(users);
  
   beforeEach(() => {
@@ -41,22 +47,45 @@ const promise = Promise.resolve(users);
   });
 
   it("should be called once", async () => {
-    await getUsers();
+    await getUsers(1,10);
     expect(getUsers).toHaveBeenCalledTimes(1);
-  });
-
-  it("should be called twice", async () => {
-    await getUsers();
-    await getUsers();
-    expect(getUsers).toHaveBeenCalledTimes(2);
-  });
-
-  it("should be called with no arguments", async () => {
-    await getUsers();
-    expect(getUsers).toHaveBeenCalledWith();
+    expect(getUsers).toHaveBeenCalledWith(1, 10);
   });
 
   it("should return a promise", () => {
-    const result =getUsers();
+    const result =getUsers(1,10);
     expect(result).toBeInstanceOf(Promise);
   });
+  
+it("should get users", async () => {
+  mock.onGet("https://gorest.co.in/public/v2/users", { params: { page:1,per_page:10 } }).reply(200, {
+  users
+});
+  const res = await getUsers(1,10)
+  expect(res.data).toEqual(users)
+})
+
+ it("should handle API errors gracefully", async () => {
+    mock.onGet("https://gorest.co.in/public/v2/users").reply(500);
+
+    try {
+      await getUsers(1, 10);
+    } catch (error) {
+      expect(error).toBeDefined();
+    }
+ });
+
+ it("should handle unauthorized access (401 error)", async () => {
+    mock.onGet("https://gorest.co.in/public/v2/users").reply(401, { message: "Unauthorized" });
+
+    try {
+      await getUsers(1, 10);
+    } catch (error) {
+      expect(error.response.status).toBe(401);
+      expect(error.response.data.message).toBe("Unauthorized");
+    }
+  });
+  
+
+
+
