@@ -6,71 +6,71 @@ jest.mock("../../../services/service", () => ({
   getUsers: jest.fn(),
 }));
 
-import UsersList from "./UserList";
 import { getUsers } from "../../../services/service";
+
+import UsersList from "./UserList";
 import UserRow from "../UserRow/UserRow";
 
-const users = [
-  {
-    id: 7705369,
-    name: "Shubham Dadas",
-    email: "shubham.dadas@15ce.com",
-    gender: "male",
-    status: "active", 
-  },
-  {
-    id: 7704657,
-    name: "Bankim Nambeesan",
-    email: "nambeesan_bankim@waelchi.example",
-    gender: "male",
-    status: "active",
-  },
-  {
-    id: 7704656,
-    name: "Chaturaanan Malik",
-    email: "chaturaanan_malik@wilkinson.example",
-    gender: "female",
-    status: "inactive",
-  },
-];
+describe("UserList component", () => {
+  const users = [
+    {
+      id: 7705369,
+      name: "Shubham Dadas",
+      email: "shubham.dadas@15ce.com",
+      gender: "male",
+      status: "active",
+    },
+    {
+      id: 7704657,
+      name: "Bankim Nambeesan",
+      email: "nambeesan_bankim@waelchi.example",
+      gender: "male",
+      status: "active",
+    },
+    {
+      id: 7704656,
+      name: "Chaturaanan Malik",
+      email: "chaturaanan_malik@wilkinson.example",
+      gender: "female",
+      status: "inactive",
+    },
+  ];
 
- const promise = Promise.resolve(users);
- (getUsers as jest.Mock).mockReturnValue(promise);
+  const promise = Promise.resolve({
+    data: users,
+    headers: { "x-pagination-total": 10 },
+  });
+  (getUsers as jest.Mock).mockReturnValue(promise);
 
+  it("function call when component mounts", () => {
+    const component = shallow(<UsersList />);
 
-it("function call when component mounts", () => {
-  const component = mount(<UsersList />);
+    expect(getUsers).toHaveBeenCalled();
+    return promise.then(() => {
+      component.update();
 
-  expect(getUsers).toHaveBeenCalled();
-  return promise.then(() => {
- 
-    component.update();
-    
-    // @ts-ignore
-    expect(toJson(component)).toMatchSnapshot();
-   
+      // @ts-ignore
+      expect(toJson(component)).toMatchSnapshot();
+    });
+  });
+
+  it("loading users content test", () => {
+    const component = mount(<UsersList />);
+    return promise.then(() => {
+      // @ts-ignore
+      expect(component.find("p").text()).toEqual("Loading users...");
+    });
+  });
+
+  it("userRow render testcase", () => {
+    const component = mount(<UsersList />);
+    return promise.then(() => {
+      // @ts-ignore
+      component.update();
+
+      expect(component.find(UserRow).length).toEqual(users.length);
+
+      expect(component.find(UserRow).at(0).props().user).toEqual(users[0]);
+    });
   });
 });
-
-
-
-it("loading users content test", () => {
-  const component = mount(<UsersList />);
-  return promise.then(() => {
-    // @ts-ignore
-    expect(component.find("p").text()).toEqual("Loading users...");
-  });
-})
-
-
-it("userRow render testcase", () => {
-  const component = mount(<UsersList />)
-  return promise.then(() => {
-    // @ts-ignore
-    component.update();
-
-    expect(component.find(UserRow).length).toEqual(users.length)
-
-    expect(component.find(UserRow).at(0).props().user).toEqual(users[0]);
-  });
-})

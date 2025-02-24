@@ -1,7 +1,6 @@
 import Pagination from "./Pagination";
 import { mount, shallow } from "enzyme";
 import React from "react";
-import handlePageClick from "../UserList/UserList";
 import toJson from "enzyme-to-json";
 
 const mockHandlePageClick = jest.fn();
@@ -32,7 +31,6 @@ it("check disable of next button for last page", () => {
 
 it("finding button in component", () => {
     const component = shallow(<Pagination {...props} currentPage={2} />)
-    console.log(component.debug())
     expect(component.find("button").exists()).toBe(true)
 })
 

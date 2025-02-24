@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+
 import { getUsers } from "../../../services/service";
+
 import UserRow from "../UserRow/UserRow";
-import "./users-list.scss";
 import Pagination from "../Pagination/Pagination";
+
+import "./users-list.scss";
 
 interface User {
   id: number;
@@ -32,24 +35,22 @@ class UsersList extends Component<{}, State> {
     };
   }
 
-  async componentDidMount() {
-    await this.fetchUsers();
+  componentDidMount() {
+    this.fetchUsers();
   }
 
-  async fetchUsers() {
+  fetchUsers() {
     const { currentPage, limit } = this.state;
     this.setState({ loading: true });
 
-    try {
-      const { data: users, totalUsers } = await getUsers(
-        currentPage + 1,
-        limit
-      );
-      this.setState({ users, totalUsers, loading: false });
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      this.setState({ loading: false });
-    }
+    getUsers(currentPage + 1, limit)
+      .then((response) => {
+        this.setState({ users: response.data, totalUsers: parseInt(response.headers["x-pagination-total"] || "0"), loading: false });
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        console.error("Error fetching users:", err);
+      })
   }
 
   handlePageClick = (data: { selected: number }) => {

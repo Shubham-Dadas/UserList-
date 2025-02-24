@@ -31,8 +31,8 @@ const Pagination: React.FC<PaginationProps> = ({
       }
 
       if (currentPage < pageCount - 3) pages.push("...");
-      if (pageCount > 1) pages.push(pageCount - 1);
-    }
+        pages.push(pageCount - 1);
+      }
 
     return pages;
   };

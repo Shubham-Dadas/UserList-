@@ -5,15 +5,19 @@ exports[`App component test component 1`] = `
   <div
     className="App"
   >
-    <header
-      className="App-header"
-    >
-      <UsersList>
-        <p>
-          Loading users...
-        </p>
-      </UsersList>
-    </header>
+    <UsersList>
+      <div
+        className="user-list-container"
+      >
+        <div
+          className="loading"
+        >
+          <p>
+            Loading users...
+          </p>
+        </div>
+      </div>
+    </UsersList>
   </div>
 </App>
 `;

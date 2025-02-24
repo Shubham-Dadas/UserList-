@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`function call when component mounts 1`] = `
-<UsersList>
-  <div
-    className="user-list-container"
-  >
+exports[`UserList component function call when component mounts 1`] = `
+<div
+  className="user-list-container"
+>
+  <div>
     <table>
       <thead>
         <tr>
@@ -34,22 +34,7 @@ exports[`function call when component mounts 1`] = `
               "status": "active",
             }
           }
-        >
-          <tr>
-            <td>
-              Shubham Dadas
-            </td>
-            <td>
-              shubham.dadas@15ce.com
-            </td>
-            <td>
-              male
-            </td>
-            <td>
-              active
-            </td>
-          </tr>
-        </UserRow>
+        />
         <UserRow
           key="7704657"
           user={
@@ -61,22 +46,7 @@ exports[`function call when component mounts 1`] = `
               "status": "active",
             }
           }
-        >
-          <tr>
-            <td>
-              Bankim Nambeesan
-            </td>
-            <td>
-              nambeesan_bankim@waelchi.example
-            </td>
-            <td>
-              male
-            </td>
-            <td>
-              active
-            </td>
-          </tr>
-        </UserRow>
+        />
         <UserRow
           key="7704656"
           user={
@@ -88,24 +58,14 @@ exports[`function call when component mounts 1`] = `
               "status": "inactive",
             }
           }
-        >
-          <tr>
-            <td>
-              Chaturaanan Malik
-            </td>
-            <td>
-              chaturaanan_malik@wilkinson.example
-            </td>
-            <td>
-              female
-            </td>
-            <td>
-              inactive
-            </td>
-          </tr>
-        </UserRow>
+        />
       </tbody>
     </table>
+    <Pagination
+      currentPage={0}
+      handlePageClick={[Function]}
+      pageCount={1}
+    />
   </div>
-</UsersList>
+</div>
 `;
