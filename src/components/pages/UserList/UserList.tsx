@@ -4,16 +4,9 @@ import { getUsers } from "../../../services/service";
 
 import UserRow from "../UserRow/UserRow";
 import Pagination from "../Pagination/Pagination";
+import { User } from "./model";
 
 import "./users-list.scss";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  status: string;
-}
 
 interface State {
   users: User[];
@@ -21,6 +14,7 @@ interface State {
   currentPage: number;
   limit: number;
   totalUsers: number;
+  error: boolean;
 }
 
 class UsersList extends Component<{}, State> {
@@ -32,6 +26,7 @@ class UsersList extends Component<{}, State> {
       currentPage: 0,
       limit: 10,
       totalUsers: 2000,
+      error: false,
     };
   }
 
@@ -41,16 +36,20 @@ class UsersList extends Component<{}, State> {
 
   fetchUsers() {
     const { currentPage, limit } = this.state;
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: false, users: [] });
 
     getUsers(currentPage + 1, limit)
       .then((response) => {
-        this.setState({ users: response.data, totalUsers: parseInt(response.headers["x-pagination-total"] || "0"), loading: false });
+        this.setState({
+          users: response.data,
+          totalUsers: parseInt(response.headers["x-pagination-total"] || "0"),
+          loading: false,
+          error: false,
+        });
       })
       .catch((err) => {
-        this.setState({ loading: false });
-        console.error("Error fetching users:", err);
-      })
+        this.setState({ loading: false, error: true });
+      });
   }
 
   handlePageClick = (data: { selected: number }) => {
@@ -60,7 +59,8 @@ class UsersList extends Component<{}, State> {
   };
 
   render() {
-    const { users, loading, limit, totalUsers, currentPage } = this.state;
+    const { users, loading, limit, totalUsers, currentPage, error } =
+      this.state;
     const pageCount = Math.ceil(totalUsers / limit);
 
     return (
@@ -68,6 +68,14 @@ class UsersList extends Component<{}, State> {
         {loading ? (
           <div className="loading">
             <p>Loading users...</p>
+          </div>
+        ) : error ? (
+          <div className="error">
+            <p>Error in loading users</p>
+          </div>
+        ) : users.length === 0 ? (
+          <div className="empty">
+            <p>No user found</p>
           </div>
         ) : (
           <div>

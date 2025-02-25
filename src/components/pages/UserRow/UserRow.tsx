@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-
+import { User } from "../UserList/model";
 interface UserProps {
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    gender: string;
-    status: string;
-  };
+  user: User
 }
 
 class UserRow extends Component<UserProps> {
