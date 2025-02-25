@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination component check mounting of pagination component 1`] = `
+<div
+  className="pagination-container"
+>
+  <button
+    className="pagination-btn prev"
+    disabled={false}
+    onClick={[Function]}
+  >
+    ◄
+  </button>
+  <button
+    className="pagination-btn "
+    key="0"
+    onClick={[Function]}
+  >
+    1
+  </button>
+  <button
+    className="pagination-btn "
+    key="1"
+    onClick={[Function]}
+  >
+    2
+  </button>
+  <button
+    className="pagination-btn active"
+    key="2"
+    onClick={[Function]}
+  >
+    3
+  </button>
+  <button
+    className="pagination-btn "
+    key="3"
+    onClick={[Function]}
+  >
+    4
+  </button>
+  <button
+    className="pagination-btn "
+    key="4"
+    onClick={[Function]}
+  >
+    5
+  </button>
+  <button
+    className="pagination-btn next"
+    disabled={false}
+    onClick={[Function]}
+  >
+    ►
+  </button>
+</div>
+`;

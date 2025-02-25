@@ -5,35 +5,19 @@ exports[`App component test component 1`] = `
   <div
     className="App"
   >
-    <header
-      className="App-header"
-    >
-      <p>
-        Edit 
-        <code>
-          src/App.tsx
-        </code>
-         and save to reload.
-      </p>
-      <Component>
-        <div>
-          Component
-        </div>
-      </Component>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        rel="noopener noreferrer"
-        target="_blank"
+    <UsersList>
+      <div
+        className="user-list-container"
       >
-        Learn React
-      </a>
-      <div>
-        <h1>
-          Hello
-        </h1>
+        <div
+          className="loading"
+        >
+          <p>
+            Loading users...
+          </p>
+        </div>
       </div>
-    </header>
+    </UsersList>
   </div>
 </App>
 `;
