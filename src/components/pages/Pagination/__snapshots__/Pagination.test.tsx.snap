@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`check mounting of pagination component 1`] = `
+exports[`Pagination component check mounting of pagination component 1`] = `
 <div
   className="pagination-container"
 >

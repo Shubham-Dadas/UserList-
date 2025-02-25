@@ -1,6 +1,6 @@
 import * as React from "react";
 import UsersList from "./components/pages/UserList/UserList";
-
+import './App.scss'
 function App() {
   return (
     <div className="App">
@@ -10,4 +10,3 @@ function App() {
 }
 
 export default App;
-

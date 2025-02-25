@@ -3,7 +3,6 @@ import toJson from "enzyme-to-json";
 import { shallow, mount } from "enzyme";
 import App from "./App";
 
-
 describe("App component", () => {
   it("test component", () => {
     const component = mount(<App />);

@@ -1,9 +1,9 @@
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter'
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 
 import { getUsers } from "./service";
 
-describe('service test', () => {
+describe("service test", () => {
   const users = [
     {
       id: 7705369,
@@ -31,17 +31,15 @@ describe('service test', () => {
   const mock = new MockAdapter(axios);
 
   it("should get users", (done) => {
-    mock.onGet("https://gorest.co.in/public/v2/users?page=1&per_page=10").reply(200, users)
+    mock
+      .onGet("https://gorest.co.in/public/v2/users?page=1&per_page=10")
+      .reply(200, users);
 
     return getUsers(1, 10)
       .then((response) => {
         expect(response.data).toEqual(users);
         done();
       })
-      .catch((err) => done.fail(err))
-  })
-})
-  
-
-
-
+      .catch((err) => done.fail(err));
+  });
+});

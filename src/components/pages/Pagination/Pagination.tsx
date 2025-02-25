@@ -18,7 +18,6 @@ const Pagination: React.FC<PaginationProps> = ({
     if (pageCount <= 4) {
       pages = Array.from({ length: pageCount }, (_, i) => i);
     } else {
-     
       pages.push(0);
 
       if (currentPage > 2) pages.push("...");
@@ -31,8 +30,8 @@ const Pagination: React.FC<PaginationProps> = ({
       }
 
       if (currentPage < pageCount - 3) pages.push("...");
-        pages.push(pageCount - 1);
-      }
+      pages.push(pageCount - 1);
+    }
 
     return pages;
   };

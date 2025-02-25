@@ -1,4 +1,5 @@
 import { mount, shallow } from "enzyme";
+
 import React from "react";
 import toJson from "enzyme-to-json";
 
@@ -40,6 +41,7 @@ describe("UserList component", () => {
     data: users,
     headers: { "x-pagination-total": 10 },
   });
+
   (getUsers as jest.Mock).mockReturnValue(promise);
 
   it("function call when component mounts", () => {
@@ -71,6 +73,21 @@ describe("UserList component", () => {
       expect(component.find(UserRow).length).toEqual(users.length);
 
       expect(component.find(UserRow).at(0).props().user).toEqual(users[0]);
+    });
+  });
+
+  it("displays error message when fetching users fails", () => {
+    (getUsers as jest.Mock).mockReturnValue(
+      Promise.reject(new Error("Error in fetching users"))
+    );
+
+    const component = mount(<UsersList />);
+
+    return new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
+      component.update();
+      expect(component.find(".error p").text()).toEqual(
+        "Error in loading users"
+      );
     });
   });
 });
