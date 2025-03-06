@@ -90,4 +90,22 @@ describe("UserList component", () => {
       );
     });
   });
+
+  it("check ", () => {
+    const component = mount(<UsersList />);
+    jest.spyOn(UsersList.prototype, "fetchUsers").mockImplementation(jest.fn());
+    component.find(".add-user-btn").simulate("click");
+    component.update();
+
+    expect(component.find("AddUser").exists()).toBe(true);
+
+    component.find("form").simulate("submit", { preventDefault: jest.fn() });
+
+    return promise.then(() => {
+      component.update();
+
+      expect(getUsers).toHaveBeenCalled();
+      // expect(UsersList.prototype.fetchUsers).toHaveBeenCalled();
+    });
+  });
 });

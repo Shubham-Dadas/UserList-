@@ -12,3 +12,22 @@ export const getUsers = (pageNo: number, pageSize: number) => {
     method: "get",
   });
 };
+
+export const addUser = async (
+  name: string,
+  email: string,
+  gender: string,
+  status: string
+) => {
+  try {
+    const res = await axios.post(
+      API_URL,
+      { name, gender, email, status },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+
+    return res.status;
+  } catch (error: any) {
+    return error.response.status;
+  }
+};

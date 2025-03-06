@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 0.625rem;
+  margin-bottom: 1rem;
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 0.625rem;
+    border-radius: 0.9375rem;
+    width: 31.25rem;
+    box-shadow: 0.125rem 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+
+    .search-icon {
+      color: gray;
+      margin-right: 0.5rem;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 1rem;
+    }
+  }
+
+  .add-user-btn {
+    padding: 0.625rem 0.9375rem;
+    border: none;
+    background-color: #3b1c32;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.625rem;
+    margin-left: auto;
+    width: 9rem;
+  }
+}

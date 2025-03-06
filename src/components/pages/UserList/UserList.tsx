@@ -4,6 +4,7 @@ import { getUsers } from "../../../services/service";
 
 import UserRow from "../UserRow/UserRow";
 import Pagination from "../Pagination/Pagination";
+import Header from "../Header/Header";
 import { User } from "./model";
 
 import "./users-list.scss";
@@ -25,7 +26,7 @@ class UsersList extends Component<{}, State> {
       loading: true,
       currentPage: 0,
       limit: 10,
-      totalUsers: 2000,
+      totalUsers: 0,
       error: false,
     };
   }
@@ -58,6 +59,10 @@ class UsersList extends Component<{}, State> {
     });
   };
 
+  handleUserAdd = () => {
+    this.fetchUsers();
+  };
+
   render() {
     const { users, loading, limit, totalUsers, currentPage, error } =
       this.state;
@@ -65,6 +70,7 @@ class UsersList extends Component<{}, State> {
 
     return (
       <div className="user-list-container">
+        <Header handleUserAdd={this.handleUserAdd} />
         {loading ? (
           <div className="loading">
             <p>Loading users...</p>
