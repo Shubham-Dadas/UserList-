@@ -40,6 +40,7 @@ class AddUser extends Component<Props, State> {
 
   handleSubmit = async (e: React.FormEvent) => {
     let status: number;
+    e.preventDefault();
 
     try {
       status = await addUser(
