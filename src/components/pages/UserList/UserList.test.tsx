@@ -11,6 +11,7 @@ import { getUsers } from "../../../services/service";
 
 import UsersList from "./UserList";
 import UserRow from "../UserRow/UserRow";
+import { Gender, Status } from "./model";
 
 describe("UserList component", () => {
   const users = [
@@ -18,22 +19,22 @@ describe("UserList component", () => {
       id: 7705369,
       name: "Shubham Dadas",
       email: "shubham.dadas@15ce.com",
-      gender: "male",
-      status: "active",
+      gender: Gender.male,
+      status: Status.active,
     },
     {
       id: 7704657,
       name: "Bankim Nambeesan",
       email: "nambeesan_bankim@waelchi.example",
-      gender: "male",
-      status: "active",
+      gender: Gender.male,
+      status: Status.active,
     },
     {
       id: 7704656,
       name: "Chaturaanan Malik",
       email: "chaturaanan_malik@wilkinson.example",
-      gender: "female",
-      status: "inactive",
+      gender: Gender.female,
+      status: Status.inactive,
     },
   ];
 

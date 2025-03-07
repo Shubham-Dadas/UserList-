@@ -60,6 +60,9 @@ class UsersList extends Component<{}, State> {
   };
 
   handleUserAdd = () => {
+    this.setState({
+      currentPage: 0,
+    });
     this.fetchUsers();
   };
 

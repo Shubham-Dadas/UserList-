@@ -3,6 +3,7 @@ import toJson from "enzyme-to-json";
 import { mount } from "enzyme";
 import AddUser from "./AddUser";
 import { addUser } from "../../../services/service";
+import { Gender,Status } from "../UserList/model";
 
 jest.mock("../../../services/service", () => ({
   addUser: jest.fn(),
@@ -71,8 +72,8 @@ describe("Test AddUser Component", () => {
       expect(addUser).toHaveBeenCalledWith({
         name: "shubham",
         email: "shubham@gmail.com",
-        gender: "male",
-        status: "active",
+        gender: Gender.male,
+        status: Status.active,
       });
     });
   });

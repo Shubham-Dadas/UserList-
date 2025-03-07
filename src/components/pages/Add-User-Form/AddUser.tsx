@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { addUser } from "../../../services/service";
 import "./add-user.scss";
-import { User } from "../UserList/model";
+import { User,Gender,Status } from "../UserList/model";
 
 interface Props {
   onClose: () => void;
@@ -20,8 +20,8 @@ class AddUser extends Component<Props, State> {
       user: {
         name: "",
         email: "",
-        gender: "male",
-        status: "active",
+        gender:Gender.male,
+        status:Status.active,
       },
     };
   }
@@ -106,7 +106,7 @@ class AddUser extends Component<Props, State> {
                         type="radio"
                         name="gender"
                         value="male"
-                        checked={this.state.user.gender === "male"}
+                        checked={this.state.user.gender === Gender.male}
                         onChange={this.handleChange}
                       />
                       Male
@@ -116,7 +116,7 @@ class AddUser extends Component<Props, State> {
                         type="radio"
                         name="gender"
                         value="female"
-                        checked={this.state.user.gender === "female"}
+                        checked={this.state.user.gender === Gender.female}
                         onChange={this.handleChange}
                       />
                       Female
@@ -132,7 +132,7 @@ class AddUser extends Component<Props, State> {
                         type="radio"
                         name="status"
                         value="active"
-                        checked={this.state.user.status === "active"}
+                        checked={this.state.user.status === Status.active}
                         onChange={this.handleChange}
                       />
                       Active
@@ -142,7 +142,7 @@ class AddUser extends Component<Props, State> {
                         type="radio"
                         name="status"
                         value="inactive"
-                        checked={this.state.user.status === "inactive"}
+                        checked={this.state.user.status === Status.inactive}
                         onChange={this.handleChange}
                       />
                       Inactive
