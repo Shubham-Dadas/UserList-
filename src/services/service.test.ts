@@ -1,8 +1,10 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { getUsers } from "./service";
+import { addUser, getUsers } from "./service";
+import { Gender, Status } from "../components/pages/UserList/model";
 
+const mock = new MockAdapter(axios);
 describe("service test", () => {
   const users = [
     {
@@ -28,8 +30,6 @@ describe("service test", () => {
     },
   ];
 
-  const mock = new MockAdapter(axios);
-
   it("should get users", (done) => {
     mock
       .onGet("https://gorest.co.in/public/v2/users?page=1&per_page=10")
@@ -41,5 +41,41 @@ describe("service test", () => {
         done();
       })
       .catch((err) => done.fail(err));
+  });
+});
+
+describe("AddUser Test", () => {
+  it("should add user", (done) => {
+    mock.onPost("https://gorest.co.in/public/v2/users").reply(201, 201);
+    return addUser({
+      name: "shubham",
+      email: "shubh@gmail.com",
+      gender:Gender.male,
+      status: Status.active,
+    })
+      .then((res) => {
+        expect(res).toEqual(201);
+        done();
+      })
+      .catch((err) => {
+        done.fail(err);
+      });
+  });
+
+  it("should return 422 when email already exists", (done) => {
+    mock.onPost("https://gorest.co.in/public/v2/users").reply(422, 422);
+    return addUser({
+      name: "shubham",
+      email: "shubh@gmail.com",
+      gender: Gender.male,
+      status: Status.active,
+    })
+      .then((res) => {
+        expect(res).toEqual(422);
+        done();
+      })
+      .catch((err) => {
+        done.fail(err);
+      });
   });
 });

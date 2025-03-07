@@ -4,6 +4,9 @@ exports[`UserList component function call when component mounts 1`] = `
 <div
   className="user-list-container"
 >
+  <Header
+    handleUserAdd={[Function]}
+  />
   <div>
     <table>
       <thead>

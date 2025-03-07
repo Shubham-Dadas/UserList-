@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notification Component test to check snapshot when message is provided 1`] = `
+<Notification
+  message="User added successfully"
+  type="success"
+>
+  <div
+    className="toast-container success"
+  >
+    <span>
+      User added successfully
+    </span>
+  </div>
+</Notification>
+`;

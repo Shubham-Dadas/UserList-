@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Header Component Snapshot test 1`] = `
+<Header
+  handleUserAdd={[MockFunction]}
+>
+  <div
+    className="header"
+  >
+    <div
+      className="search-container"
+    >
+      <span
+        className="search-icon"
+      />
+      <input
+        placeholder="Search"
+        type="text"
+      />
+    </div>
+    <button
+      className="add-user-btn"
+      onClick={[Function]}
+    >
+      Add User
+    </button>
+  </div>
+</Header>
+`;
