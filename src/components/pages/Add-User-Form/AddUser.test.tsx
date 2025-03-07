@@ -68,12 +68,12 @@ describe("Test AddUser Component", () => {
         "success"
       );
 
-      expect(addUser).toHaveBeenCalledWith(
-        "shubham",
-        "shubham@gmail.com",
-        "male",
-        "active"
-      );
+      expect(addUser).toHaveBeenCalledWith({
+        name: "shubham",
+        email: "shubham@gmail.com",
+        gender: "male",
+        status: "active",
+      });
     });
   });
 });

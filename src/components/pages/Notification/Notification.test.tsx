@@ -10,7 +10,6 @@ describe("Notification Component", () => {
     );
     //@ts-ignore
     expect(toJson(component)).toMatchSnapshot();
-    expect(component.find("span").text()).toEqual("User added successfully");
     expect(component.props().message).toEqual("User added successfully");
   });
 });

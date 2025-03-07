@@ -46,7 +46,12 @@ describe("service test", () => {
 describe("AddUser Test", () => {
   it("should add user", (done) => {
     mock.onPost("https://gorest.co.in/public/v2/users").reply(201, 201);
-    return addUser("shubham", "shubh@gmail.com", "male", "active")
+    return addUser({
+      name: "shubham",
+      email: "shubh@gmail.com",
+      gender: "male",
+      status: "active",
+    })
       .then((res) => {
         expect(res).toEqual(201);
         done();
@@ -58,7 +63,12 @@ describe("AddUser Test", () => {
 
   it("should return 422 when email already exists", (done) => {
     mock.onPost("https://gorest.co.in/public/v2/users").reply(422, 422);
-    return addUser("shubham", "shubh@gmail.com", "male", "active")
+    return addUser({
+      name: "shubham",
+      email: "shubh@gmail.com",
+      gender: "male",
+      status: "active",
+    })
       .then((res) => {
         expect(res).toEqual(422);
         done();

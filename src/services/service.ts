@@ -1,5 +1,6 @@
 import axios from "axios";
 import { accessToken } from "../constants";
+import { User } from "../components/pages/UserList/model";
 
 const API_URL = "https://gorest.co.in/public/v2/users";
 
@@ -13,16 +14,16 @@ export const getUsers = (pageNo: number, pageSize: number) => {
   });
 };
 
-export const addUser = async (
-  name: string,
-  email: string,
-  gender: string,
-  status: string
-) => {
+export const addUser = async (user: User) => {
   try {
     const res = await axios.post(
       API_URL,
-      { name, gender, email, status },
+      {
+        name: user.name,
+        gender: user.gender,
+        email: user.email,
+        status: user.status,
+      },
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
 

@@ -49,6 +49,7 @@ describe("Test Header Component", () => {
       expect(component.find(Notification).props().message).toEqual(
         "User added successfully"
       );
+
       expect(props.handleUserAdd).toHaveBeenCalledTimes(1);
     });
   });

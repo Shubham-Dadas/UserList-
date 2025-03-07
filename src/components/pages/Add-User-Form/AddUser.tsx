@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { addUser } from "../../../services/service";
 import "./add-user.scss";
+import { User } from "../UserList/model";
 
 interface Props {
   onClose: () => void;
@@ -9,20 +10,19 @@ interface Props {
 }
 
 interface State {
-  name: string;
-  email: string;
-  gender: string;
-  status: string;
+  user: User;
 }
 
 class AddUser extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      gender: "male",
-      status: "active",
+      user: {
+        name: "",
+        email: "",
+        gender: "male",
+        status: "active",
+      },
     };
   }
 
@@ -32,10 +32,13 @@ class AddUser extends Component<Props, State> {
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ [e.target.name]: e.target.value } as Pick<
-      State,
-      keyof State
-    >);
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      user: {
+        ...prevState.user,
+        [name]: value,
+      },
+    }));
   };
 
   handleSubmit = async (e: React.FormEvent) => {
@@ -43,12 +46,7 @@ class AddUser extends Component<Props, State> {
     e.preventDefault();
 
     try {
-      status = await addUser(
-        this.state.name,
-        this.state.email,
-        this.state.gender,
-        this.state.status
-      );
+      status = await addUser(this.state.user);
 
       if (status === 201) {
         this.props.handleNotification("User added successfully", "success");
@@ -65,105 +63,107 @@ class AddUser extends Component<Props, State> {
   render() {
     return (
       <>
-        <div className="modal-overlay">
-          <div className="modal">
-            <div className="modal-header">
-              Add New User
-              <button className="close-btn" onClick={this.closeButton}>
-                ✖
-              </button>
+        <div className="add-user-form">
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header">
+                Add New User
+                <button className="close-btn" onClick={this.closeButton}>
+                  ✖
+                </button>
+              </div>
+
+              <form onSubmit={this.handleSubmit} className="modal-body">
+                <div className="form-group">
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    value={this.state.user.name}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    value={this.state.user.email}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Gender:</label>
+                  <div className="radio-group">
+                    <label className="radio-item">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="male"
+                        checked={this.state.user.gender === "male"}
+                        onChange={this.handleChange}
+                      />
+                      Male
+                    </label>
+                    <label className="radio-item">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="female"
+                        checked={this.state.user.gender === "female"}
+                        onChange={this.handleChange}
+                      />
+                      Female
+                    </label>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Status:</label>
+                  <div className="radio-group">
+                    <label className="radio-item">
+                      <input
+                        type="radio"
+                        name="status"
+                        value="active"
+                        checked={this.state.user.status === "active"}
+                        onChange={this.handleChange}
+                      />
+                      Active
+                    </label>
+                    <label className="radio-item">
+                      <input
+                        type="radio"
+                        name="status"
+                        value="inactive"
+                        checked={this.state.user.status === "inactive"}
+                        onChange={this.handleChange}
+                      />
+                      Inactive
+                    </label>
+                  </div>
+                </div>
+
+                <div className="button-group">
+                  <button
+                    type="button"
+                    className="cancel-btn"
+                    onClick={this.closeButton}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="submit-btn">
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
-
-            <form onSubmit={this.handleSubmit} className="modal-body">
-              <div className="form-group">
-                <label>Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Email:</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Gender:</label>
-                <div className="radio-group">
-                  <label className="radio-item">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      checked={this.state.gender === "male"}
-                      onChange={this.handleChange}
-                    />
-                    Male
-                  </label>
-                  <label className="radio-item">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      checked={this.state.gender === "female"}
-                      onChange={this.handleChange}
-                    />
-                    Female
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Status:</label>
-                <div className="radio-group">
-                  <label className="radio-item">
-                    <input
-                      type="radio"
-                      name="status"
-                      value="active"
-                      checked={this.state.status === "active"}
-                      onChange={this.handleChange}
-                    />
-                    Active
-                  </label>
-                  <label className="radio-item">
-                    <input
-                      type="radio"
-                      name="status"
-                      value="inactive"
-                      checked={this.state.status === "inactive"}
-                      onChange={this.handleChange}
-                    />
-                    Inactive
-                  </label>
-                </div>
-              </div>
-
-              <div className="button-group">
-                <button
-                  type="button"
-                  className="cancel-btn"
-                  onClick={this.closeButton}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="submit-btn">
-                  Submit
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       </>

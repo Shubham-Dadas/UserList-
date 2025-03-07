@@ -91,9 +91,9 @@ describe("UserList component", () => {
     });
   });
 
-  it("check ", () => {
+  it("Test to check function call of getUser after adding new user", () => {
     const component = mount(<UsersList />);
-    jest.spyOn(UsersList.prototype, "fetchUsers").mockImplementation(jest.fn());
+
     component.find(".add-user-btn").simulate("click");
     component.update();
 
@@ -105,7 +105,6 @@ describe("UserList component", () => {
       component.update();
 
       expect(getUsers).toHaveBeenCalled();
-      // expect(UsersList.prototype.fetchUsers).toHaveBeenCalled();
     });
   });
 });
