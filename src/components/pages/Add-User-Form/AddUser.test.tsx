@@ -3,7 +3,7 @@ import toJson from "enzyme-to-json";
 import { mount } from "enzyme";
 import AddUser from "./AddUser";
 import { addUser } from "../../../services/service";
-import { Gender,Status } from "../UserList/model";
+import { Gender, Status } from "../UserList/model";
 
 jest.mock("../../../services/service", () => ({
   addUser: jest.fn(),
@@ -63,7 +63,6 @@ describe("Test AddUser Component", () => {
       // @ts-ignore
       expect(props.handleUserAdd).toHaveBeenCalledTimes(1);
       expect(props.onClose).toHaveBeenCalled();
-      expect(props.handleNotification).toHaveBeenCalled();
       expect(props.handleNotification).toHaveBeenCalledWith(
         "User added successfully",
         "success"

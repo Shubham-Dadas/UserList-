@@ -5,10 +5,11 @@ import toJson from "enzyme-to-json";
 
 jest.mock("../../../services/service", () => ({
   getUsers: jest.fn(),
+  addUser: jest.fn(),
+  editUser: jest.fn(),
 }));
 
-import { getUsers } from "../../../services/service";
-
+import { addUser, getUsers, editUser } from "../../../services/service";
 import UsersList from "./UserList";
 import UserRow from "../UserRow/UserRow";
 import { Gender, Status } from "./model";
@@ -77,35 +78,104 @@ describe("UserList component", () => {
     });
   });
 
+  it("open and close ActionModal when clicked on action button", () => {
+    const component = mount(<UsersList />);
+    return promise.then(() => {
+      // @ts-ignore
+      component.update();
+      console.log(component.debug());
+      const userRow = component.find(UserRow).at(0);
+      userRow.find("button").simulate("click");
+      component.update();
+      expect(component.find("ActionModal").exists()).toBe(true);
+      userRow.find("button").simulate("click");
+      component.update();
+      expect(component.find("ActionModal").exists()).toBe(false);
+    });
+  });
+
+  it("check EditModal open when clicked on Edit button", () => {
+    const editPromise = Promise.resolve({
+      status: 201,
+      data: "User edit successfully",
+    });
+
+    (editUser as jest.Mock).mockReturnValue(editPromise);
+    const component = mount(<UsersList />);
+    const handleUserAddOrEditSpy = jest.spyOn(
+      component.instance(),
+      //@ts-ignore
+      "handleUserAddOrEdit"
+    );
+    return promise.then(() => {
+      // @ts-ignore
+      component.update();
+      console.log(component.debug());
+
+      const userRow = component.find(UserRow).at(0);
+      userRow.find("button").simulate("click");
+      component.update();
+      const actionModal = component.find("ActionModal");
+      actionModal.find("li").at(0).simulate("click");
+      component.update();
+      const editModal = component.find("EditUser");
+      expect(editModal.exists()).toBe(true);
+      expect(editModal.prop("user")).toEqual(users[0]);
+      expect(component.find("ActionModal").exists()).toBe(false);
+
+      editModal.find("form").simulate("submit", { preventDefault: jest.fn() });
+      return editUser(users[0]).then(() => {
+        expect(handleUserAddOrEditSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
   it("displays error message when fetching users fails", () => {
-    (getUsers as jest.Mock).mockReturnValue(
-      Promise.reject(new Error("Error in fetching users"))
+    (getUsers as jest.Mock).mockRejectedValue(
+      new Error("Error in loading users")
     );
 
     const component = mount(<UsersList />);
 
-    return new Promise((resolve) => setTimeout(resolve, 0)).then(() => {
-      component.update();
-      expect(component.find(".error p").text()).toEqual(
-        "Error in loading users"
-      );
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        component.update();
+
+        expect(component.find(".error p").text()).toEqual(
+          "Error in loading users"
+        );
+        //@ts-ignore
+        resolve();
+      }, 0);
     });
   });
 
-  it("Test to check function call of getUser after adding new user", () => {
+  it("should call getUsers after adding a new user", () => {
+    const addPromise = Promise.resolve({
+      status: 201,
+    });
+
+    (addUser as jest.Mock).mockReturnValue(addPromise);
+
     const component = mount(<UsersList />);
-
-    component.find(".add-user-btn").simulate("click");
-    component.update();
-
-    expect(component.find("AddUser").exists()).toBe(true);
-
-    component.find("form").simulate("submit", { preventDefault: jest.fn() });
 
     return promise.then(() => {
       component.update();
 
-      expect(getUsers).toHaveBeenCalled();
+      component.find(".add-user-btn").simulate("click");
+      component.update();
+
+      expect(component.find("AddUser").exists()).toBe(true);
+
+      component
+        .find("AddUser")
+        .find("form")
+        .simulate("submit", { preventDefault: jest.fn() });
+
+      return addPromise.then(() => {
+        component.update();
+        expect(getUsers).toHaveBeenCalled();
+      });
     });
   });
 });

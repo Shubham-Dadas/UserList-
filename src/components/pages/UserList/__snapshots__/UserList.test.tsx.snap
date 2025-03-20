@@ -5,7 +5,7 @@ exports[`UserList component function call when component mounts 1`] = `
   className="user-list-container"
 >
   <Header
-    handleUserAdd={[Function]}
+    toggleAddUserModal={[Function]}
   />
   <div>
     <table>
@@ -23,11 +23,17 @@ exports[`UserList component function call when component mounts 1`] = `
           <th>
             Status
           </th>
+          <th>
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
         <UserRow
+          handleEditModal={[Function]}
+          isOpen={false}
           key="7705369"
+          toggleActionModal={[Function]}
           user={
             Object {
               "email": "shubham.dadas@15ce.com",
@@ -39,7 +45,10 @@ exports[`UserList component function call when component mounts 1`] = `
           }
         />
         <UserRow
+          handleEditModal={[Function]}
+          isOpen={false}
           key="7704657"
+          toggleActionModal={[Function]}
           user={
             Object {
               "email": "nambeesan_bankim@waelchi.example",
@@ -51,7 +60,10 @@ exports[`UserList component function call when component mounts 1`] = `
           }
         />
         <UserRow
+          handleEditModal={[Function]}
+          isOpen={false}
           key="7704656"
+          toggleActionModal={[Function]}
           user={
             Object {
               "email": "chaturaanan_malik@wilkinson.example",

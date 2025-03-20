@@ -1,19 +1,40 @@
-import React, { Component } from "react";
+import React from "react";
 import { User } from "../UserList/model";
-interface UserProps {
-  user: User
+import ActionModal from "../ActionModal/ActionModal";
+
+interface Props {
+  user: User;
+  toggleActionModal: (user: User | null) => void;
+  isOpen: boolean;
+  handleEditModal: (user: User | null) => void;
 }
 
-class UserRow extends Component<UserProps> {
+class UserRow extends React.Component<Props> {
+  handleActionClick = () => {
+    this.props.toggleActionModal(this.props.isOpen ? null : this.props.user);
+  };
+
   render() {
-    const { name, email, gender, status } = this.props.user;
+    const { user, isOpen, handleEditModal } = this.props;
 
     return (
       <tr>
-        <td>{name}</td>
-        <td>{email}</td>
-        <td>{gender}</td>
-        <td>{status}</td>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        <td>{user.gender}</td>
+        <td>{user.status}</td>
+        <td className="action-cell">
+          <div className="action-container">
+            <button onClick={this.handleActionClick}>⋮</button>
+            {isOpen && (
+              <ActionModal
+                user={user}
+                onClose={() => this.props.toggleActionModal(null)}
+                handleEditModal={handleEditModal}
+              />
+            )}
+          </div>
+        </td>
       </tr>
     );
   }

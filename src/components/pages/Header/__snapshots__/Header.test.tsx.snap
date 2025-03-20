@@ -2,7 +2,7 @@
 
 exports[`Test Header Component Snapshot test 1`] = `
 <Header
-  handleUserAdd={[MockFunction]}
+  toggleAddUserModal={[MockFunction]}
 >
   <div
     className="header"
@@ -20,7 +20,7 @@ exports[`Test Header Component Snapshot test 1`] = `
     </div>
     <button
       className="add-user-btn"
-      onClick={[Function]}
+      onClick={[MockFunction]}
     >
       Add User
     </button>

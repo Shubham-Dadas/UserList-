@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { addUser } from "../../../services/service";
-import "./add-user.scss";
+import { editUser } from "../../../services/service";
+import "./edit-user.scss";
 import { User, Gender, Status, MessageType } from "../UserList/model";
 
 interface Props {
+  user: User;
   onClose: () => void;
-  handleUserAdd: () => void;
+  handleUserEdit: () => void;
   handleNotification: (msg: string, type: string) => void;
 }
 
@@ -13,71 +14,61 @@ interface State {
   user: User;
 }
 
-class AddUser extends Component<Props, State> {
+class EditUser extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      user: {
-        name: "",
-        email: "",
-        gender: Gender.male,
-        status: Status.active,
-      },
+      user: { ...this.props.user },
     };
   }
-
-  closeButton = () => {
-    this.props.handleNotification("", "");
-    this.props.onClose();
-  };
-
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    this.setState((prevState) => ({
-      user: {
-        ...prevState.user,
-        [name]: value,
-      },
-    }));
-  };
 
   handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    addUser(this.state.user)
+    editUser(this.state.user)
       .then((res) => {
         const errorData = res.response?.data[0];
         const message = errorData
           ? `${errorData.field} ${errorData.message}`
-          : "User added successfully";
+          : "User updated successfully";
         if (errorData) {
           this.props.handleNotification(message, MessageType.error);
           return;
         } else {
           this.props.handleNotification(message, MessageType.success);
-          this.props.handleUserAdd();
+          this.props.handleUserEdit();
           this.props.onClose();
         }
       })
       .catch((error) => {
-        this.props.handleNotification("Failed to add user", MessageType.error);
+        this.props.handleNotification(
+          "Failed to update user",
+          MessageType.error
+        );
       });
+  };
+
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      user: { ...prevState.user, [name]: value },
+    }));
   };
 
   render() {
     return (
       <>
-        <div className="add-user-form">
+        <div className="edit-user-form">
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                Add New User
-                <button className="close-btn" onClick={this.closeButton}>
+                Edit User Form
+                <button className="close-btn" onClick={this.props.onClose}>
                   ✖
                 </button>
               </div>
 
-              <form onSubmit={this.handleSubmit} className="modal-body">
+              <form className="modal-body" onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label>Name:</label>
                   <input
@@ -158,7 +149,7 @@ class AddUser extends Component<Props, State> {
                   <button
                     type="button"
                     className="cancel-btn"
-                    onClick={this.closeButton}
+                    onClick={this.props.onClose}
                   >
                     Cancel
                   </button>
@@ -175,4 +166,4 @@ class AddUser extends Component<Props, State> {
   }
 }
 
-export default AddUser;
+export default EditUser;

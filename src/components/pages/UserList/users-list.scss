@@ -10,7 +10,7 @@
     font-weight: bold;
   }
 
-  width: 80%;
+  width: 90%;
   padding: 1.25rem;
   margin: 0 auto;
 
@@ -42,12 +42,24 @@
 
     td {
       text-transform: capitalize;
+      button {
+        background-color: #fff;
+        border: #fff;
+      }
     }
 
     td:nth-child(2),
     th:nth-child(2) {
-      width: 40%;
+      width: 30%;
     }
+    td:nth-child(5),
+    th:nth-child(5) {
+      width: 6%;
+    }
+  }
+  .modal-cell {
+    position: relative;
+    padding: 0;
   }
   .pagination-container {
     display: flex;
@@ -56,5 +68,25 @@
     margin-top: 0.625rem;
     padding: 0.625rem;
     gap: 0.3125rem;
+  }
+  .action-cell {
+    position: relative;
+
+    .action-container {
+      position: relative;
+      display: inline-block;
+
+      button {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0.2rem 0.5rem;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
   }
 }

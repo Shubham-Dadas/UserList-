@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-
 import { getUsers } from "../../../services/service";
-
+import { User, ModalState, ActionType } from "./model";
 import UserRow from "../UserRow/UserRow";
 import Pagination from "../Pagination/Pagination";
 import Header from "../Header/Header";
-import { User } from "./model";
-
+import AddUser from "../Add-User-Form/AddUser";
+import Notification from "../Notification/Notification";
+import EditUser from "../EditModal/EditModal";
 import "./users-list.scss";
 
 interface State {
@@ -16,11 +16,18 @@ interface State {
   limit: number;
   totalUsers: number;
   error: boolean;
+  isActionModalOpen: User | null;
+  message: string;
+  messageType: string;
+  modalState: ModalState;
 }
 
 class UsersList extends Component<{}, State> {
-  constructor(props) {
+  private box: React.RefObject<HTMLDivElement>;
+
+  constructor(props: {}) {
     super(props);
+    this.box = React.createRef();
     this.state = {
       users: [],
       loading: true,
@@ -28,17 +35,41 @@ class UsersList extends Component<{}, State> {
       limit: 10,
       totalUsers: 0,
       error: false,
+      isActionModalOpen: null,
+      message: "",
+      messageType: "",
+      modalState: { type: null, user: null },
     };
   }
 
   componentDidMount() {
+    document.addEventListener("mousedown", this.handleOutsideClick);
     this.fetchUsers();
   }
 
-  fetchUsers() {
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleOutsideClick);
+  }
+
+  handleOutsideClick = (event: MouseEvent) => {
+    if (this.box.current === null) return;
+    if (!this.box.current.contains(event.target as Node)) {
+      this.toggleActionModal(null);
+    }
+  };
+
+  handleNotification = (msg: string, type: string) => {
+    this.setState({ message: msg, messageType: type });
+
+    setTimeout(() => {
+      this.setState({ message: "", messageType: "" });
+    }, 1000);
+  };
+
+  fetchUsers = () => {
     const { currentPage, limit } = this.state;
     this.setState({ loading: true, error: false, users: [] });
-
+    
     getUsers(currentPage + 1, limit)
       .then((response) => {
         this.setState({
@@ -48,32 +79,68 @@ class UsersList extends Component<{}, State> {
           error: false,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({ loading: false, error: true });
       });
-  }
-
-  handlePageClick = (data: { selected: number }) => {
-    this.setState({ currentPage: data.selected }, () => {
-      this.fetchUsers();
-    });
   };
 
-  handleUserAdd = () => {
+  handlePageClick = (data: { selected: number }) => {
+    this.setState({ currentPage: data.selected }, this.fetchUsers);
+  };
+
+  handleModalOpen = (type: ActionType, user: User | null = null) => {
+    this.setState({ modalState: { type, user } });
+  };
+
+  handleModalClose = () => {
+    this.setState({ modalState: { type: null, user: null } });
+  };
+
+  handleUserAddOrEdit = () => {
     this.setState({
-      currentPage: 0,
-    });
+      currentPage:0
+    })
     this.fetchUsers();
+    this.handleModalClose();
+  };
+
+  toggleActionModal = (user: User | null) => {
+    this.setState({ isActionModalOpen: user });
   };
 
   render() {
-    const { users, loading, limit, totalUsers, currentPage, error } =
-      this.state;
+    const {
+      users,
+      loading,
+      limit,
+      totalUsers,
+      currentPage,
+      error,
+      isActionModalOpen,
+      message,
+      messageType,
+      modalState,
+    } = this.state;
     const pageCount = Math.ceil(totalUsers / limit);
 
     return (
-      <div className="user-list-container">
-        <Header handleUserAdd={this.handleUserAdd} />
+      <div className="user-list-container" ref={this.box}>
+        <Header
+          toggleAddUserModal={() => this.handleModalOpen(ActionType.add)}
+        />
+
+        {message.length > 0 && (
+          <Notification message={message} type={messageType} />
+        )}
+
+        {modalState.type === ActionType.add && (
+          <AddUser
+            onClose={this.handleModalClose}
+            handleUserAdd={this.handleUserAddOrEdit}
+            handleNotification={this.handleNotification}
+          />
+        )}
+
         {loading ? (
           <div className="loading">
             <p>Loading users...</p>
@@ -95,14 +162,37 @@ class UsersList extends Component<{}, State> {
                   <th>Email</th>
                   <th>Gender</th>
                   <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <UserRow key={user.id} user={user} />
+                  <UserRow
+                    key={user.id}
+                    user={user}
+                    toggleActionModal={this.toggleActionModal}
+                    isOpen={isActionModalOpen?.id === user.id}
+                    handleEditModal={() =>
+                      this.handleModalOpen(ActionType.edit, user)
+                    }
+                  />
                 ))}
               </tbody>
             </table>
+
+            {modalState.type === ActionType.edit && modalState.user && (
+              <div className="modal-overlay">
+                <div className="modal-container">
+                  <EditUser
+                    user={modalState.user}
+                    onClose={this.handleModalClose}
+                    handleUserEdit={this.handleUserAddOrEdit}
+                    handleNotification={this.handleNotification}
+                  />
+                </div>
+              </div>
+            )}
+
             <Pagination
               handlePageClick={this.handlePageClick}
               pageCount={pageCount}

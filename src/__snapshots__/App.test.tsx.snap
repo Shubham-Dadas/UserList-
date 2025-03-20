@@ -10,7 +10,7 @@ exports[`App component test component 1`] = `
         className="user-list-container"
       >
         <Header
-          handleUserAdd={[Function]}
+          toggleAddUserModal={[Function]}
         >
           <div
             className="header"

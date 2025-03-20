@@ -1,7 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { addUser, getUsers } from "./service";
+import { addUser, getUsers, editUser } from "./service";
 import { Gender, Status } from "../components/pages/UserList/model";
 
 const mock = new MockAdapter(axios);
@@ -44,38 +44,74 @@ describe("service test", () => {
   });
 });
 
-describe("AddUser Test", () => {
-  it("should add user", (done) => {
-    mock.onPost("https://gorest.co.in/public/v2/users").reply(201, 201);
-    return addUser({
-      name: "shubham",
-      email: "shubh@gmail.com",
-      gender:Gender.male,
-      status: Status.active,
-    })
-      .then((res) => {
-        expect(res).toEqual(201);
+const mockUser = {
+  id: 7705369,
+  name: "Shubham Dadas",
+  email: "shubham.dadas@15ce.com",
+  gender: Gender.male,
+  status: Status.active,
+};
+
+describe("Test AddUser function", () => {
+  it("should add a user successfully", (done) => {
+    mock.onPost("https://gorest.co.in/public/v2/users").reply(201, {
+      id: 7705370,
+      ...mockUser,
+    });
+
+    addUser(mockUser)
+      .then((response) => {
+        expect(response.status).toBe(201);
+        expect(response.data.id).toBe(7705369);
+        expect(response.data.name).toBe(mockUser.name);
         done();
       })
-      .catch((err) => {
-        done.fail(err);
-      });
+      .catch((err) => done.fail(err));
   });
 
   it("should return 422 when email already exists", (done) => {
-    mock.onPost("https://gorest.co.in/public/v2/users").reply(422, 422);
-    return addUser({
-      name: "shubham",
-      email: "shubh@gmail.com",
-      gender: Gender.male,
-      status: Status.active,
-    })
-      .then((res) => {
-        expect(res).toEqual(422);
+    mock.onPost("https://gorest.co.in/public/v2/users").reply(422, {
+      message: "Email already exists",
+    });
+
+    addUser(mockUser)
+      .then((response) => {
+        expect(response.response.status).toBe(422);
+        expect(response.response.data.message).toBe("Email already exists");
         done();
       })
-      .catch((err) => {
-        done.fail(err);
-      });
+      .catch((err) => done.fail(err));
+  });
+});
+
+describe("Test EditUser function", () => {
+  it("should edit a user successfully", (done) => {
+    mock.onPut("https://gorest.co.in/public/v2/users/7705369").reply(200, {
+      id: 7705369,
+      ...mockUser,
+    });
+
+    editUser(mockUser)
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.data.id).toBe(7705369);
+        expect(response.data.name).toBe(mockUser.name);
+        done();
+      })
+      .catch((err) => done.fail(err));
+  });
+
+  it("should return 422 when user email is already exists", (done) => {
+    mock.onPut("https://gorest.co.in/public/v2/users/7705369").reply(422, {
+      message: "Email already exists",
+    });
+
+    editUser(mockUser)
+      .then((response) => {
+        expect(response.response.status).toBe(422);
+        expect(response.response.data.message).toBe("Email already exists");
+        done();
+      })
+      .catch((err) => done.fail(err));
   });
 });
