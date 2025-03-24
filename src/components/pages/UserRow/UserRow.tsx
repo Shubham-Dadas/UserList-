@@ -3,8 +3,7 @@ import { User } from "../../../Model/model";
 import ActionModal from "../ActionModal/ActionModal";
 import "./user-row.scss";
 
-interface Props
-{
+interface Props {
   user: User;
   toggleActionModal: (user: User | null) => void;
   selectedUser: User | null;
@@ -13,12 +12,14 @@ interface Props
 
 class UserRow extends React.Component<Props> {
   handleActionClick = () => {
-    this.props.toggleActionModal((this.props.selectedUser===this.props.user) ? null : this.props.user);
+    this.props.toggleActionModal(
+      this.props.selectedUser === this.props.user ? null : this.props.user
+    );
   };
-  
+
   render() {
     const { user, selectedUser, handleEditModal } = this.props;
-    
+
     return (
       <tr>
         <td>{user.name}</td>
@@ -28,7 +29,7 @@ class UserRow extends React.Component<Props> {
         <td className="action-cell">
           <div className="action-container">
             <button onClick={this.handleActionClick}>⋮</button>
-            {(selectedUser===user) && (
+            {selectedUser === user && (
               <ActionModal
                 user={user}
                 onCloseActionModal={() => this.props.toggleActionModal(null)}

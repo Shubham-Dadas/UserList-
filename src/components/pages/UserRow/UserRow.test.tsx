@@ -6,7 +6,6 @@ import { mockUser } from "../../../stub";
 const mockEditModal = jest.fn();
 const mockToggleActionModal = jest.fn();
 
-
 describe("Testing UserRow Component", () => {
   let component;
 
@@ -27,7 +26,7 @@ describe("Testing UserRow Component", () => {
   });
 
   it("Testcase to render ActionModal when selectedUser is mockUser", () => {
-    component.setProps({ selectedUser:mockUser });
+    component.setProps({ selectedUser: mockUser });
     expect(component.find("ActionModal").exists()).toBe(true);
     expect(component.find("ActionModal").prop("user")).toEqual(mockUser);
   });
@@ -35,7 +34,7 @@ describe("Testing UserRow Component", () => {
   it("calls toggleActionModal when button is clicked", () => {
     component.find("button").simulate("click");
     expect(mockToggleActionModal).toHaveBeenCalledWith(mockUser);
-    component.setProps({ selectedUser:null });
+    component.setProps({ selectedUser: null });
     expect(component.find("ActionModal").exists()).toBe(false);
   });
 });

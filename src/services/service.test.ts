@@ -2,13 +2,11 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
 import { addUser, getUsers, editUser } from "./service";
-import { users,mockUser } from "../stub";
+import { users, mockUser } from "../stub";
 
 const mock = new MockAdapter(axios);
 
 describe("service test", () => {
-  
-
   it("should get users", (done) => {
     mock
       .onGet("https://gorest.co.in/public/v2/users?page=1&per_page=10")
@@ -44,7 +42,7 @@ describe("Test AddUser function", () => {
     mock.onPost("https://gorest.co.in/public/v2/users").reply(422, {
       message: "Email already exists",
     });
-     
+
     addUser(mockUser)
       .then((response) => {
         expect(response.response.status).toBe(422);

@@ -12,11 +12,10 @@ jest.mock("../../../services/service", () => ({
 import { addUser, getUsers, editUser } from "../../../services/service";
 import UsersList from "./UserList";
 import UserRow from "../UserRow/UserRow";
-import { ActionType} from "../../../Model/model";
+import { ActionType } from "../../../Model/model";
 import { users } from "../../../stub";
 
 describe("UserList component", () => {
-
   const promise = Promise.resolve({
     data: users,
     headers: { "x-pagination-total": 10 },
@@ -26,11 +25,11 @@ describe("UserList component", () => {
 
   it("function call when component mounts", () => {
     const component = mount(<UsersList />);
-    
+
     expect(getUsers).toHaveBeenCalled();
     return promise.then(() => {
       component.update();
-      
+
       // @ts-ignore
       expect(toJson(component)).toMatchSnapshot();
     });
@@ -84,7 +83,7 @@ describe("UserList component", () => {
       //@ts-ignore
       "handleUserAddOrEdit"
     );
-    
+
     return promise.then(() => {
       // @ts-ignore
       component.update();

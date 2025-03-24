@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ActionModal from "./ActionModal";
-import { mockUser, } from "../../../stub";
+import { mockUser } from "../../../stub";
 import { handleEditModal, onCloseActionModal } from "../../../stub";
 describe("ActionModal Component", () => {
-  
   const component = shallow(
     <ActionModal
       user={mockUser}

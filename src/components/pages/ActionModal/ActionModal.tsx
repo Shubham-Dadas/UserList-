@@ -12,12 +12,12 @@ class ActionModal extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
-  
+
   handleEditClick = () => {
     this.props.handleEditModal(this.props.user);
     this.props.onCloseActionModal();
   };
-  
+
   render() {
     return (
       <div className="action-modal-wrapper">

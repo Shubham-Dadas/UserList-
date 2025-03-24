@@ -1,7 +1,14 @@
 import React, { Component } from "react";
-import { editUser,addUser } from "../../../services/service";
+import { editUser, addUser } from "../../../services/service";
 import "./user-form-modal.scss";
-import { User, Gender, Status, MessageType, ModalState, ActionType } from "../../../Model/model";
+import {
+  User,
+  Gender,
+  Status,
+  MessageType,
+  ModalState,
+  ActionType,
+} from "../../../Model/model";
 
 interface Props {
   modalState: ModalState;
@@ -15,20 +22,18 @@ interface State {
 }
 
 class UserForm extends Component<Props, State> {
-
-   constructor(props: Props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       user: {
         id: props.modalState.user?.id,
         name: props.modalState.user?.name || "",
         email: props.modalState.user?.email || "",
-        gender: props.modalState.user?.gender || Gender.male, 
-        status: props.modalState.user?.status || Status.active, 
+        gender: props.modalState.user?.gender || Gender.male,
+        status: props.modalState.user?.status || Status.active,
       },
     };
   }
-  
 
   handleEditModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,36 +60,34 @@ class UserForm extends Component<Props, State> {
       });
   };
 
-   handleAddUserModalSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      
-      addUser(this.state.user)
-        .then((res) => {
-          const errorData = res.response?.data[0];
-          const message = errorData
-            ? `${errorData.field} ${errorData.message}`
-            : "User added successfully";
-          if (errorData) {
-            this.props.handleNotification(message, MessageType.error);
-            return;
-          } 
-            this.props.handleNotification(message, MessageType.success);
-            this.props.handleUserAddOrEdit();
-            this.props.onCloseModal();
-          
-        })
-        .catch((error) => {
-          this.props.handleNotification("Failed to add user", MessageType.error);
-        });
-   };
-  
-  
-  handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      this.props.modalState.type===ActionType.add ? this.handleAddUserModalSubmit(e):this.handleEditModalSubmit(e)
-  }
+  handleAddUserModalSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
- 
+    addUser(this.state.user)
+      .then((res) => {
+        const errorData = res.response?.data[0];
+        const message = errorData
+          ? `${errorData.field} ${errorData.message}`
+          : "User added successfully";
+        if (errorData) {
+          this.props.handleNotification(message, MessageType.error);
+          return;
+        }
+        this.props.handleNotification(message, MessageType.success);
+        this.props.handleUserAddOrEdit();
+        this.props.onCloseModal();
+      })
+      .catch((error) => {
+        this.props.handleNotification("Failed to add user", MessageType.error);
+      });
+  };
+
+  handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    this.props.modalState.type === ActionType.add
+      ? this.handleAddUserModalSubmit(e)
+      : this.handleEditModalSubmit(e);
+  };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -100,15 +103,11 @@ class UserForm extends Component<Props, State> {
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                {
-                  this.props.modalState.type === ActionType.add?
-                  (
-                     <>Add User Form</>
-                  ):
-                  (
-                     <>Edit User Form</>
-                  )
-                }
+                {this.props.modalState.type === ActionType.add ? (
+                  <>Add User Form</>
+                ) : (
+                  <>Edit User Form</>
+                )}
                 <button className="close-btn" onClick={this.props.onCloseModal}>
                   ✖
                 </button>

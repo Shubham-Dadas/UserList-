@@ -7,12 +7,13 @@ import {
   handleNotification,
   handleUserAddOrEdit,
 } from "../../../stub";
+
 jest.mock("../../../services/service", () => ({
   editUser: jest.fn(),
   addUser: jest.fn(),
 }));
 
-import UserForm from "./UserFormModal"
+import UserForm from "./UserFormModal";
 import { ActionType, Gender, Status } from "../../../Model/model";
 import { editUser, addUser } from "../../../services/service";
 
