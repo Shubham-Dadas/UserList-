@@ -1,7 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test EditUser Component Snapshot test 1`] = `
-<Fragment>
+exports[`Test EditUser Component Snapshot test for EditUser modal 1`] = `
+<UserForm
+  handleNotification={[MockFunction]}
+  handleUserAddOrEdit={[MockFunction]}
+  modalState={
+    Object {
+      "type": "edit",
+      "user": Object {
+        "email": "shubham.dadas@15ce.com",
+        "gender": "male",
+        "id": 7705369,
+        "name": "Shubham Dadas",
+        "status": "active",
+      },
+    }
+  }
+  onCloseModal={[MockFunction]}
+>
   <div
     className="edit-user-form"
   >
@@ -53,7 +69,7 @@ exports[`Test EditUser Component Snapshot test 1`] = `
               placeholder="Enter your email address"
               required={true}
               type="email"
-              value="shubh@gmail.com"
+              value="shubham.dadas@15ce.com"
             />
           </div>
           <div
@@ -147,5 +163,5 @@ exports[`Test EditUser Component Snapshot test 1`] = `
       </div>
     </div>
   </div>
-</Fragment>
+</UserForm>
 `;

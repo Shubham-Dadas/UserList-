@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { getUsers } from "../../../services/service";
-import { User, ModalState, ActionType } from "./model";
+import { User, ModalState, ActionType } from "../../../Model/model";
 import UserRow from "../UserRow/UserRow";
 import Pagination from "../Pagination/Pagination";
 import Header from "../Header/Header";
-import AddUser from "../Add-User-Form/AddUser";
 import Notification from "../Notification/Notification";
-import EditUser from "../EditModal/EditModal";
 import "./users-list.scss";
+import UserForm from "../UserFormModal/UserFormModal";
 
 interface State {
   users: User[];
@@ -16,7 +15,7 @@ interface State {
   limit: number;
   totalUsers: number;
   error: boolean;
-  isActionModalOpen: User | null;
+  selectedUser: User | null;
   message: string;
   messageType: string;
   modalState: ModalState;
@@ -35,7 +34,7 @@ class UsersList extends Component<{}, State> {
       limit: 10,
       totalUsers: 0,
       error: false,
-      isActionModalOpen: null,
+      selectedUser: null,
       message: "",
       messageType: "",
       modalState: { type: null, user: null },
@@ -69,7 +68,7 @@ class UsersList extends Component<{}, State> {
   fetchUsers = () => {
     const { currentPage, limit } = this.state;
     this.setState({ loading: true, error: false, users: [] });
-    
+
     getUsers(currentPage + 1, limit)
       .then((response) => {
         this.setState({
@@ -98,14 +97,14 @@ class UsersList extends Component<{}, State> {
 
   handleUserAddOrEdit = () => {
     this.setState({
-      currentPage:0
-    })
+      currentPage: 0,
+    });
     this.fetchUsers();
     this.handleModalClose();
   };
 
   toggleActionModal = (user: User | null) => {
-    this.setState({ isActionModalOpen: user });
+    this.setState({ selectedUser: user });
   };
 
   render() {
@@ -116,7 +115,6 @@ class UsersList extends Component<{}, State> {
       totalUsers,
       currentPage,
       error,
-      isActionModalOpen,
       message,
       messageType,
       modalState,
@@ -132,11 +130,12 @@ class UsersList extends Component<{}, State> {
         {message.length > 0 && (
           <Notification message={message} type={messageType} />
         )}
-
-        {modalState.type === ActionType.add && (
-          <AddUser
-            onClose={this.handleModalClose}
-            handleUserAdd={this.handleUserAddOrEdit}
+        {(modalState.type === ActionType.add ||
+          modalState.type === ActionType.edit) && (
+          <UserForm
+            modalState={modalState}
+            onCloseModal={this.handleModalClose}
+            handleUserAddOrEdit={this.handleUserAddOrEdit}
             handleNotification={this.handleNotification}
           />
         )}
@@ -171,27 +170,14 @@ class UsersList extends Component<{}, State> {
                     key={user.id}
                     user={user}
                     toggleActionModal={this.toggleActionModal}
-                    isOpen={isActionModalOpen?.id === user.id}
-                    handleEditModal={() =>
+                    selectedUser={this.state.selectedUser}
+                    handleEditModal={(user) =>
                       this.handleModalOpen(ActionType.edit, user)
                     }
                   />
                 ))}
               </tbody>
             </table>
-
-            {modalState.type === ActionType.edit && modalState.user && (
-              <div className="modal-overlay">
-                <div className="modal-container">
-                  <EditUser
-                    user={modalState.user}
-                    onClose={this.handleModalClose}
-                    handleUserEdit={this.handleUserAddOrEdit}
-                    handleNotification={this.handleNotification}
-                  />
-                </div>
-              </div>
-            )}
 
             <Pagination
               handlePageClick={this.handlePageClick}

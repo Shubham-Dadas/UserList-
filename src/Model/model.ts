@@ -18,6 +18,7 @@ export enum ActionType {
   edit = "edit",
   delete = "delete",
 }
+
 export interface ModalState {
   type: ActionType|null;
   user: User | null

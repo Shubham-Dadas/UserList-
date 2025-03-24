@@ -1,22 +1,24 @@
 import React from "react";
-import { User } from "../UserList/model";
+import { User } from "../../../Model/model";
 import ActionModal from "../ActionModal/ActionModal";
+import "./user-row.scss";
 
-interface Props {
+interface Props
+{
   user: User;
   toggleActionModal: (user: User | null) => void;
-  isOpen: boolean;
+  selectedUser: User | null;
   handleEditModal: (user: User | null) => void;
 }
 
 class UserRow extends React.Component<Props> {
   handleActionClick = () => {
-    this.props.toggleActionModal(this.props.isOpen ? null : this.props.user);
+    this.props.toggleActionModal((this.props.selectedUser===this.props.user) ? null : this.props.user);
   };
-
+  
   render() {
-    const { user, isOpen, handleEditModal } = this.props;
-
+    const { user, selectedUser, handleEditModal } = this.props;
+    
     return (
       <tr>
         <td>{user.name}</td>
@@ -26,10 +28,10 @@ class UserRow extends React.Component<Props> {
         <td className="action-cell">
           <div className="action-container">
             <button onClick={this.handleActionClick}>⋮</button>
-            {isOpen && (
+            {(selectedUser===user) && (
               <ActionModal
                 user={user}
-                onClose={() => this.props.toggleActionModal(null)}
+                onCloseActionModal={() => this.props.toggleActionModal(null)}
                 handleEditModal={handleEditModal}
               />
             )}

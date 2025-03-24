@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { editUser } from "../../../services/service";
-import "./edit-user.scss";
-import { User, Gender, Status, MessageType } from "../UserList/model";
+import { editUser,addUser } from "../../../services/service";
+import "./user-form-modal.scss";
+import { User, Gender, Status, MessageType, ModalState, ActionType } from "../../../Model/model";
 
 interface Props {
-  user: User;
-  onClose: () => void;
-  handleUserEdit: () => void;
+  modalState: ModalState;
+  onCloseModal: () => void;
+  handleUserAddOrEdit: () => void;
   handleNotification: (msg: string, type: string) => void;
 }
 
@@ -14,15 +14,23 @@ interface State {
   user: User;
 }
 
-class EditUser extends Component<Props, State> {
-  constructor(props: Props) {
+class UserForm extends Component<Props, State> {
+
+   constructor(props: Props) {
     super(props);
     this.state = {
-      user: { ...this.props.user },
+      user: {
+        id: props.modalState.user?.id,
+        name: props.modalState.user?.name || "",
+        email: props.modalState.user?.email || "",
+        gender: props.modalState.user?.gender || Gender.male, 
+        status: props.modalState.user?.status || Status.active, 
+      },
     };
   }
+  
 
-  handleSubmit = async (e: React.FormEvent) => {
+  handleEditModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     editUser(this.state.user)
@@ -34,11 +42,10 @@ class EditUser extends Component<Props, State> {
         if (errorData) {
           this.props.handleNotification(message, MessageType.error);
           return;
-        } else {
-          this.props.handleNotification(message, MessageType.success);
-          this.props.handleUserEdit();
-          this.props.onClose();
         }
+        this.props.handleNotification(message, MessageType.success);
+        this.props.handleUserAddOrEdit();
+        this.props.onCloseModal();
       })
       .catch((error) => {
         this.props.handleNotification(
@@ -47,6 +54,37 @@ class EditUser extends Component<Props, State> {
         );
       });
   };
+
+   handleAddUserModalSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      
+      addUser(this.state.user)
+        .then((res) => {
+          const errorData = res.response?.data[0];
+          const message = errorData
+            ? `${errorData.field} ${errorData.message}`
+            : "User added successfully";
+          if (errorData) {
+            this.props.handleNotification(message, MessageType.error);
+            return;
+          } 
+            this.props.handleNotification(message, MessageType.success);
+            this.props.handleUserAddOrEdit();
+            this.props.onCloseModal();
+          
+        })
+        .catch((error) => {
+          this.props.handleNotification("Failed to add user", MessageType.error);
+        });
+   };
+  
+  
+  handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      this.props.modalState.type===ActionType.add ? this.handleAddUserModalSubmit(e):this.handleEditModalSubmit(e)
+  }
+
+ 
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,8 +100,16 @@ class EditUser extends Component<Props, State> {
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                Edit User Form
-                <button className="close-btn" onClick={this.props.onClose}>
+                {
+                  this.props.modalState.type === ActionType.add?
+                  (
+                     <>Add User Form</>
+                  ):
+                  (
+                     <>Edit User Form</>
+                  )
+                }
+                <button className="close-btn" onClick={this.props.onCloseModal}>
                   ✖
                 </button>
               </div>
@@ -149,7 +195,7 @@ class EditUser extends Component<Props, State> {
                   <button
                     type="button"
                     className="cancel-btn"
-                    onClick={this.props.onClose}
+                    onClick={this.props.onCloseModal}
                   >
                     Cancel
                   </button>
@@ -166,4 +212,4 @@ class EditUser extends Component<Props, State> {
   }
 }
 
-export default EditUser;
+export default UserForm;

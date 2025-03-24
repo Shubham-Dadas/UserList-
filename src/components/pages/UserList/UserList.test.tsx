@@ -12,32 +12,10 @@ jest.mock("../../../services/service", () => ({
 import { addUser, getUsers, editUser } from "../../../services/service";
 import UsersList from "./UserList";
 import UserRow from "../UserRow/UserRow";
-import { Gender, Status } from "./model";
+import { ActionType} from "../../../Model/model";
+import { users } from "../../../stub";
 
 describe("UserList component", () => {
-  const users = [
-    {
-      id: 7705369,
-      name: "Shubham Dadas",
-      email: "shubham.dadas@15ce.com",
-      gender: Gender.male,
-      status: Status.active,
-    },
-    {
-      id: 7704657,
-      name: "Bankim Nambeesan",
-      email: "nambeesan_bankim@waelchi.example",
-      gender: Gender.male,
-      status: Status.active,
-    },
-    {
-      id: 7704656,
-      name: "Chaturaanan Malik",
-      email: "chaturaanan_malik@wilkinson.example",
-      gender: Gender.female,
-      status: Status.inactive,
-    },
-  ];
 
   const promise = Promise.resolve({
     data: users,
@@ -47,12 +25,12 @@ describe("UserList component", () => {
   (getUsers as jest.Mock).mockReturnValue(promise);
 
   it("function call when component mounts", () => {
-    const component = shallow(<UsersList />);
-
+    const component = mount(<UsersList />);
+    
     expect(getUsers).toHaveBeenCalled();
     return promise.then(() => {
       component.update();
-
+      
       // @ts-ignore
       expect(toJson(component)).toMatchSnapshot();
     });
@@ -83,7 +61,6 @@ describe("UserList component", () => {
     return promise.then(() => {
       // @ts-ignore
       component.update();
-      console.log(component.debug());
       const userRow = component.find(UserRow).at(0);
       userRow.find("button").simulate("click");
       component.update();
@@ -107,23 +84,27 @@ describe("UserList component", () => {
       //@ts-ignore
       "handleUserAddOrEdit"
     );
+    
     return promise.then(() => {
       // @ts-ignore
       component.update();
-      console.log(component.debug());
-
       const userRow = component.find(UserRow).at(0);
       userRow.find("button").simulate("click");
       component.update();
       const actionModal = component.find("ActionModal");
       actionModal.find("li").at(0).simulate("click");
       component.update();
-      const editModal = component.find("EditUser");
-      expect(editModal.exists()).toBe(true);
-      expect(editModal.prop("user")).toEqual(users[0]);
+      const userFormModal = component.find("UserForm");
+      expect(userFormModal.exists()).toBe(true);
+      expect(userFormModal.prop("modalState")).toEqual({
+        type: ActionType.edit,
+        user: users[0],
+      });
       expect(component.find("ActionModal").exists()).toBe(false);
 
-      editModal.find("form").simulate("submit", { preventDefault: jest.fn() });
+      userFormModal
+        .find("form")
+        .simulate("submit", { preventDefault: jest.fn() });
       return editUser(users[0]).then(() => {
         expect(handleUserAddOrEditSpy).toHaveBeenCalledTimes(1);
       });
@@ -165,10 +146,10 @@ describe("UserList component", () => {
       component.find(".add-user-btn").simulate("click");
       component.update();
 
-      expect(component.find("AddUser").exists()).toBe(true);
+      expect(component.find("UserForm").exists()).toBe(true);
 
       component
-        .find("AddUser")
+        .find("UserForm")
         .find("form")
         .simulate("submit", { preventDefault: jest.fn() });
 

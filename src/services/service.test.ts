@@ -2,33 +2,12 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
 import { addUser, getUsers, editUser } from "./service";
-import { Gender, Status } from "../components/pages/UserList/model";
+import { users,mockUser } from "../stub";
 
 const mock = new MockAdapter(axios);
+
 describe("service test", () => {
-  const users = [
-    {
-      id: 7705369,
-      name: "Shubham Dadas",
-      email: "shubham.dadas@15ce.com",
-      gender: "male",
-      status: "active",
-    },
-    {
-      id: 7704657,
-      name: "Bankim Nambeesan",
-      email: "nambeesan_bankim@waelchi.example",
-      gender: "male",
-      status: "active",
-    },
-    {
-      id: 7704656,
-      name: "Chaturaanan Malik",
-      email: "chaturaanan_malik@wilkinson.example",
-      gender: "female",
-      status: "inactive",
-    },
-  ];
+  
 
   it("should get users", (done) => {
     mock
@@ -43,14 +22,6 @@ describe("service test", () => {
       .catch((err) => done.fail(err));
   });
 });
-
-const mockUser = {
-  id: 7705369,
-  name: "Shubham Dadas",
-  email: "shubham.dadas@15ce.com",
-  gender: Gender.male,
-  status: Status.active,
-};
 
 describe("Test AddUser function", () => {
   it("should add a user successfully", (done) => {
@@ -73,7 +44,7 @@ describe("Test AddUser function", () => {
     mock.onPost("https://gorest.co.in/public/v2/users").reply(422, {
       message: "Email already exists",
     });
-
+     
     addUser(mockUser)
       .then((response) => {
         expect(response.response.status).toBe(422);

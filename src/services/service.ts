@@ -1,6 +1,6 @@
 import axios from "axios";
 import { accessToken } from "../constants";
-import { User } from "../components/pages/UserList/model";
+import { User } from "../Model/model";
 
 const API_URL = "https://gorest.co.in/public/v2/users";
 

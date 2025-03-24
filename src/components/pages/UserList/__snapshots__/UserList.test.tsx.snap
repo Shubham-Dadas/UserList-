@@ -1,86 +1,220 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UserList component function call when component mounts 1`] = `
-<div
-  className="user-list-container"
->
-  <Header
-    toggleAddUserModal={[Function]}
-  />
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>
-            Name
-          </th>
-          <th>
-            Email
-          </th>
-          <th>
-            Gender
-          </th>
-          <th>
-            Status
-          </th>
-          <th>
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <UserRow
-          handleEditModal={[Function]}
-          isOpen={false}
-          key="7705369"
-          toggleActionModal={[Function]}
-          user={
-            Object {
-              "email": "shubham.dadas@15ce.com",
-              "gender": "male",
-              "id": 7705369,
-              "name": "Shubham Dadas",
-              "status": "active",
+<UsersList>
+  <div
+    className="user-list-container"
+  >
+    <Header
+      toggleAddUserModal={[Function]}
+    >
+      <div
+        className="header"
+      >
+        <div
+          className="search-container"
+        >
+          <span
+            className="search-icon"
+          />
+          <input
+            placeholder="Search"
+            type="text"
+          />
+        </div>
+        <button
+          className="add-user-btn"
+          onClick={[Function]}
+        >
+          Add User
+        </button>
+      </div>
+    </Header>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Gender
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <UserRow
+            handleEditModal={[Function]}
+            key="7705369"
+            selectedUser={null}
+            toggleActionModal={[Function]}
+            user={
+              Object {
+                "email": "shubham.dadas@15ce.com",
+                "gender": "male",
+                "id": 7705369,
+                "name": "Shubham Dadas",
+                "status": "active",
+              }
             }
-          }
-        />
-        <UserRow
-          handleEditModal={[Function]}
-          isOpen={false}
-          key="7704657"
-          toggleActionModal={[Function]}
-          user={
-            Object {
-              "email": "nambeesan_bankim@waelchi.example",
-              "gender": "male",
-              "id": 7704657,
-              "name": "Bankim Nambeesan",
-              "status": "active",
+          >
+            <tr>
+              <td>
+                Shubham Dadas
+              </td>
+              <td>
+                shubham.dadas@15ce.com
+              </td>
+              <td>
+                male
+              </td>
+              <td>
+                active
+              </td>
+              <td
+                className="action-cell"
+              >
+                <div
+                  className="action-container"
+                >
+                  <button
+                    onClick={[Function]}
+                  >
+                    ⋮
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </UserRow>
+          <UserRow
+            handleEditModal={[Function]}
+            key="7704657"
+            selectedUser={null}
+            toggleActionModal={[Function]}
+            user={
+              Object {
+                "email": "nambeesan_bankim@waelchi.example",
+                "gender": "male",
+                "id": 7704657,
+                "name": "Bankim Nambeesan",
+                "status": "active",
+              }
             }
-          }
-        />
-        <UserRow
-          handleEditModal={[Function]}
-          isOpen={false}
-          key="7704656"
-          toggleActionModal={[Function]}
-          user={
-            Object {
-              "email": "chaturaanan_malik@wilkinson.example",
-              "gender": "female",
-              "id": 7704656,
-              "name": "Chaturaanan Malik",
-              "status": "inactive",
+          >
+            <tr>
+              <td>
+                Bankim Nambeesan
+              </td>
+              <td>
+                nambeesan_bankim@waelchi.example
+              </td>
+              <td>
+                male
+              </td>
+              <td>
+                active
+              </td>
+              <td
+                className="action-cell"
+              >
+                <div
+                  className="action-container"
+                >
+                  <button
+                    onClick={[Function]}
+                  >
+                    ⋮
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </UserRow>
+          <UserRow
+            handleEditModal={[Function]}
+            key="7704656"
+            selectedUser={null}
+            toggleActionModal={[Function]}
+            user={
+              Object {
+                "email": "chaturaanan_malik@wilkinson.example",
+                "gender": "female",
+                "id": 7704656,
+                "name": "Chaturaanan Malik",
+                "status": "inactive",
+              }
             }
-          }
-        />
-      </tbody>
-    </table>
-    <Pagination
-      currentPage={0}
-      handlePageClick={[Function]}
-      pageCount={1}
-    />
+          >
+            <tr>
+              <td>
+                Chaturaanan Malik
+              </td>
+              <td>
+                chaturaanan_malik@wilkinson.example
+              </td>
+              <td>
+                female
+              </td>
+              <td>
+                inactive
+              </td>
+              <td
+                className="action-cell"
+              >
+                <div
+                  className="action-container"
+                >
+                  <button
+                    onClick={[Function]}
+                  >
+                    ⋮
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </UserRow>
+        </tbody>
+      </table>
+      <Pagination
+        currentPage={0}
+        handlePageClick={[Function]}
+        pageCount={1}
+      >
+        <div
+          className="pagination-container"
+        >
+          <button
+            className="pagination-btn prev"
+            disabled={true}
+            onClick={[Function]}
+          >
+            ◄
+          </button>
+          <button
+            className="pagination-btn active"
+            key="0"
+            onClick={[Function]}
+          >
+            1
+          </button>
+          <button
+            className="pagination-btn next"
+            disabled={true}
+            onClick={[Function]}
+          >
+            ►
+          </button>
+        </div>
+      </Pagination>
+    </div>
   </div>
-</div>
+</UsersList>
 `;
