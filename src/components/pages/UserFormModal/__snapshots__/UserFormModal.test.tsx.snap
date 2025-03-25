@@ -19,7 +19,7 @@ exports[`Test EditUser Component Snapshot test for EditUser modal 1`] = `
   onCloseModal={[MockFunction]}
 >
   <div
-    className="edit-user-form"
+    className="user-form"
   >
     <div
       className="modal-overlay"

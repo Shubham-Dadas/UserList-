@@ -2,11 +2,6 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import { mockUser } from "../../../stub";
-import {
-  handleModalClose,
-  handleNotification,
-  handleUserAddOrEdit,
-} from "../../../stub";
 
 jest.mock("../../../services/service", () => ({
   editUser: jest.fn(),
@@ -17,10 +12,10 @@ import UserForm from "./UserFormModal";
 import { ActionType, Gender, Status } from "../../../Model/model";
 import { editUser, addUser } from "../../../services/service";
 
-const Baseprops = {
-  onCloseModal: handleModalClose,
-  handleUserAddOrEdit: handleUserAddOrEdit,
-  handleNotification: handleNotification,
+const baseProps = {
+  onCloseModal: jest.fn(),
+  handleUserAddOrEdit: jest.fn(),
+  handleNotification:jest.fn(),
 };
 
 describe("Test EditUser Component", () => {
@@ -30,7 +25,7 @@ describe("Test EditUser Component", () => {
   };
   beforeEach(() => {
     const props = {
-      ...Baseprops,
+      ...baseProps,
       modalState: {
         type: ActionType.edit,
         user: mockUser,
@@ -47,9 +42,9 @@ describe("Test EditUser Component", () => {
   it("should call onClose when close or cancel button is clicked", () => {
     expect(component.find(".close-btn").exists()).toBe(true);
     component.find(".close-btn").simulate("click");
-    expect(handleModalClose).toHaveBeenCalled();
+    expect(baseProps.onCloseModal).toHaveBeenCalled();
     component.find(".cancel-btn").simulate("click");
-    expect(handleModalClose).toHaveBeenCalled();
+    expect(baseProps.onCloseModal).toHaveBeenCalled();
   });
 
   it("should update state when input fields are changed and successfully submit the form", () => {
@@ -75,12 +70,12 @@ describe("Test EditUser Component", () => {
     component.find("form").simulate("submit", { preventDefault: jest.fn() });
     return promise.then(() => {
       expect(editUser).toHaveBeenCalledWith(updatedUser);
-      expect(handleUserAddOrEdit).toHaveBeenCalled();
-      expect(handleNotification).toHaveBeenCalledWith(
+      expect(baseProps.handleUserAddOrEdit).toHaveBeenCalled();
+      expect(baseProps.handleNotification).toHaveBeenCalledWith(
         "User updated successfully",
         "success"
       );
-      expect(handleModalClose).toHaveBeenCalled();
+      expect(baseProps.onCloseModal).toHaveBeenCalled();
     });
   });
 
@@ -99,7 +94,7 @@ describe("Test EditUser Component", () => {
 
     return promise.then(() => {
       expect(editUser).toHaveBeenCalledWith(state.user);
-      expect(handleNotification).toHaveBeenCalledWith(
+      expect(baseProps.handleNotification).toHaveBeenCalledWith(
         "email is already taken",
         "error"
       );
@@ -112,7 +107,7 @@ describe("Test AddUser Component", () => {
 
   beforeEach(() => {
     const props = {
-      ...Baseprops,
+      ...baseProps,
       modalState: {
         type: ActionType.add,
         user: null,
@@ -154,9 +149,9 @@ describe("Test AddUser Component", () => {
       component.update();
 
       // @ts-ignore
-      expect(Baseprops.handleUserAddOrEdit).toHaveBeenCalled();
-      expect(Baseprops.onCloseModal).toHaveBeenCalled();
-      expect(Baseprops.handleNotification).toHaveBeenCalledWith(
+      expect(baseProps.handleUserAddOrEdit).toHaveBeenCalled();
+      expect(baseProps.onCloseModal).toHaveBeenCalled();
+      expect(baseProps.handleNotification).toHaveBeenCalledWith(
         "User added successfully",
         "success"
       );

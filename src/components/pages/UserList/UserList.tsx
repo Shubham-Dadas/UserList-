@@ -130,8 +130,7 @@ class UsersList extends Component<{}, State> {
         {message.length > 0 && (
           <Notification message={message} type={messageType} />
         )}
-        {(modalState.type === ActionType.add ||
-          modalState.type === ActionType.edit) && (
+        {[ActionType.add, ActionType.edit].includes(modalState.type)  && (
           <UserForm
             modalState={modalState}
             onCloseModal={this.handleModalClose}

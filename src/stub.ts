@@ -31,11 +31,3 @@ export const users = [
     status: Status.inactive,
   },
 ];
-
-
-export const handleModalClose = jest.fn()
-export const handleUserAddOrEdit = jest.fn()
-export const handleNotification=jest.fn()
-
-export const onCloseActionModal = jest.fn()
-export const handleEditModal=jest.fn()

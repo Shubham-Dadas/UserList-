@@ -35,58 +35,34 @@ class UserForm extends Component<Props, State> {
     };
   }
 
-  handleEditModalSubmit = async (e: React.FormEvent) => {
+  handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    editUser(this.state.user)
+    const isEditMode = this.props.modalState.type === ActionType.edit;
+    const userAction = isEditMode ? editUser : addUser;
+
+    userAction(this.state.user)
       .then((res) => {
-        const errorData = res.response?.data[0];
+        const errorData = res.response?.data?.[0];
         const message = errorData
           ? `${errorData.field} ${errorData.message}`
-          : "User updated successfully";
+          : `User ${isEditMode ? "updated" : "added"} successfully`;
+
         if (errorData) {
           this.props.handleNotification(message, MessageType.error);
           return;
         }
+
         this.props.handleNotification(message, MessageType.success);
         this.props.handleUserAddOrEdit();
         this.props.onCloseModal();
       })
-      .catch((error) => {
+      .catch(() => {
         this.props.handleNotification(
-          "Failed to update user",
+          `Failed to ${isEditMode ? "update" : "add"} user`,
           MessageType.error
         );
       });
-  };
-
-  handleAddUserModalSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    addUser(this.state.user)
-      .then((res) => {
-        const errorData = res.response?.data[0];
-        const message = errorData
-          ? `${errorData.field} ${errorData.message}`
-          : "User added successfully";
-        if (errorData) {
-          this.props.handleNotification(message, MessageType.error);
-          return;
-        }
-        this.props.handleNotification(message, MessageType.success);
-        this.props.handleUserAddOrEdit();
-        this.props.onCloseModal();
-      })
-      .catch((error) => {
-        this.props.handleNotification("Failed to add user", MessageType.error);
-      });
-  };
-
-  handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    this.props.modalState.type === ActionType.add
-      ? this.handleAddUserModalSubmit(e)
-      : this.handleEditModalSubmit(e);
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,15 +75,19 @@ class UserForm extends Component<Props, State> {
   render() {
     return (
       <>
-        <div className="edit-user-form">
+        <div className="user-form">
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                {this.props.modalState.type === ActionType.add ? (
-                  <>Add User Form</>
-                ) : (
-                  <>Edit User Form</>
-                )}
+                {[ActionType.add, ActionType.edit].includes(
+                  this.props.modalState.type
+                ) &&
+                  (this.props.modalState.type === ActionType.edit ? (
+                    <>Edit User Form</>
+                  ) : (
+                    <>Add User Form</>
+                  ))}
+
                 <button className="close-btn" onClick={this.props.onCloseModal}>
                   ✖
                 </button>
