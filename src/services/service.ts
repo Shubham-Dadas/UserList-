@@ -1,6 +1,6 @@
 import axios from "axios";
 import { accessToken } from "../constants";
-import { User } from "../components/pages/UserList/model";
+import { User } from "../Model/model";
 
 const API_URL = "https://gorest.co.in/public/v2/users";
 
@@ -26,9 +26,19 @@ export const addUser = async (user: User) => {
       },
       { headers: { Authorization: `Bearer ${accessToken}` } }
     );
-
-    return res.status;
+    return res;
   } catch (error: any) {
-    return error.response.status;
+    return error;
+  }
+};
+
+export const editUser = async (user: User) => {
+  try {
+    const res = await axios.put(`${API_URL}/${user.id}`, user, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return res;
+  } catch (error: any) {
+    return error;
   }
 };

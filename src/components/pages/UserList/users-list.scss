@@ -10,7 +10,7 @@
     font-weight: bold;
   }
 
-  width: 80%;
+  width: 90%;
   padding: 1.25rem;
   margin: 0 auto;
 
@@ -42,12 +42,24 @@
 
     td {
       text-transform: capitalize;
+      button {
+        background-color: #fff;
+        border: #fff;
+      }
     }
 
     td:nth-child(2),
     th:nth-child(2) {
-      width: 40%;
+      width: 30%;
     }
+    td:nth-child(5),
+    th:nth-child(5) {
+      width: 6%;
+    }
+  }
+  .modal-cell {
+    position: relative;
+    padding: 0;
   }
   .pagination-container {
     display: flex;

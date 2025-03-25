@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`userRow snapshot matching 1`] = `
+exports[`Testing UserRow Component Snapshot matching testcase 1`] = `
 <tr>
   <td>
     Shubham Dadas
@@ -13,6 +13,19 @@ exports[`userRow snapshot matching 1`] = `
   </td>
   <td>
     active
+  </td>
+  <td
+    className="action-cell"
+  >
+    <div
+      className="action-container"
+    >
+      <button
+        onClick={[Function]}
+      >
+        ⋮
+      </button>
+    </div>
   </td>
 </tr>
 `;

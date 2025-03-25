@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionModal Component Snapshot test 1`] = `
+<div
+  className="action-modal-wrapper"
+>
+  <div
+    className="action-modal"
+  >
+    <ul>
+      <li
+        onClick={[Function]}
+      >
+        Edit
+      </li>
+      <li
+        onClick={[MockFunction]}
+      >
+        Delete
+      </li>
+    </ul>
+  </div>
+</div>
+`;

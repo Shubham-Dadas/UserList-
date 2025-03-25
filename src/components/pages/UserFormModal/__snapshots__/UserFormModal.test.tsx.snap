@@ -1,13 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test AddUser Component Snapshot Test 1`] = `
-<AddUser
+exports[`Test EditUser Component Snapshot test for EditUser modal 1`] = `
+<UserForm
   handleNotification={[MockFunction]}
-  handleUserAdd={[MockFunction]}
-  onClose={[MockFunction]}
+  handleUserAddOrEdit={[MockFunction]}
+  modalState={
+    Object {
+      "type": "edit",
+      "user": Object {
+        "email": "shubham.dadas@15ce.com",
+        "gender": "male",
+        "id": 7705369,
+        "name": "Shubham Dadas",
+        "status": "active",
+      },
+    }
+  }
+  onCloseModal={[MockFunction]}
 >
   <div
-    className="add-user-form"
+    className="user-form"
   >
     <div
       className="modal-overlay"
@@ -18,10 +30,10 @@ exports[`Test AddUser Component Snapshot Test 1`] = `
         <div
           className="modal-header"
         >
-          Add New User
+          Edit User Form
           <button
             className="close-btn"
-            onClick={[Function]}
+            onClick={[MockFunction]}
           >
             ✖
           </button>
@@ -42,7 +54,7 @@ exports[`Test AddUser Component Snapshot Test 1`] = `
               placeholder="Enter your name"
               required={true}
               type="text"
-              value=""
+              value="Shubham Dadas"
             />
           </div>
           <div
@@ -57,7 +69,7 @@ exports[`Test AddUser Component Snapshot Test 1`] = `
               placeholder="Enter your email address"
               required={true}
               type="email"
-              value=""
+              value="shubham.dadas@15ce.com"
             />
           </div>
           <div
@@ -135,7 +147,7 @@ exports[`Test AddUser Component Snapshot Test 1`] = `
           >
             <button
               className="cancel-btn"
-              onClick={[Function]}
+              onClick={[MockFunction]}
               type="button"
             >
               Cancel
@@ -151,5 +163,5 @@ exports[`Test AddUser Component Snapshot Test 1`] = `
       </div>
     </div>
   </div>
-</AddUser>
+</UserForm>
 `;

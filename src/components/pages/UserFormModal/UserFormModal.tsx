@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { addUser } from "../../../services/service";
-import "./add-user.scss";
-import { User,Gender,Status } from "../UserList/model";
+import { editUser, addUser } from "../../../services/service";
+import "./user-form-modal.scss";
+import {
+  User,
+  Gender,
+  Status,
+  MessageType,
+  ModalState,
+  ActionType,
+} from "../../../Model/model";
 
 interface Props {
-  onClose: () => void;
-  handleUserAdd: () => void;
+  modalState: ModalState;
+  onCloseModal: () => void;
+  handleUserAddOrEdit: () => void;
   handleNotification: (msg: string, type: string) => void;
 }
 
@@ -13,67 +21,79 @@ interface State {
   user: User;
 }
 
-class AddUser extends Component<Props, State> {
+class UserForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       user: {
-        name: "",
-        email: "",
-        gender:Gender.male,
-        status:Status.active,
+        id: props.modalState.user?.id,
+        name: props.modalState.user?.name || "",
+        email: props.modalState.user?.email || "",
+        gender: props.modalState.user?.gender || Gender.male,
+        status: props.modalState.user?.status || Status.active,
       },
     };
   }
 
-  closeButton = () => {
-    this.props.handleNotification("", "");
-    this.props.onClose();
+  handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const isEditMode = this.props.modalState.type === ActionType.edit;
+    const userAction = isEditMode ? editUser : addUser;
+
+    userAction(this.state.user)
+      .then((res) => {
+        const errorData = res.response?.data?.[0];
+        const message = errorData
+          ? `${errorData.field} ${errorData.message}`
+          : `User ${isEditMode ? "updated" : "added"} successfully`;
+
+        if (errorData) {
+          this.props.handleNotification(message, MessageType.error);
+          return;
+        }
+
+        this.props.handleNotification(message, MessageType.success);
+        this.props.handleUserAddOrEdit();
+        this.props.onCloseModal();
+      })
+      .catch(() => {
+        this.props.handleNotification(
+          `Failed to ${isEditMode ? "update" : "add"} user`,
+          MessageType.error
+        );
+      });
   };
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     this.setState((prevState) => ({
-      user: {
-        ...prevState.user,
-        [name]: value,
-      },
+      user: { ...prevState.user, [name]: value },
     }));
-  };
-
-  handleSubmit = async (e: React.FormEvent) => {
-    let status: number;
-    e.preventDefault();
-
-    try {
-      status = await addUser(this.state.user);
-
-      if (status === 201) {
-        this.props.handleNotification("User added successfully", "success");
-        this.props.handleUserAdd();
-        this.props.onClose();
-      } else if (status === 422) {
-        this.props.handleNotification("Email already exists", "error");
-      }
-    } catch (error) {
-      this.props.handleNotification("Failed to add user", "error");
-    }
   };
 
   render() {
     return (
       <>
-        <div className="add-user-form">
+        <div className="user-form">
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                Add New User
-                <button className="close-btn" onClick={this.closeButton}>
+                {[ActionType.add, ActionType.edit].includes(
+                  this.props.modalState.type
+                ) &&
+                  (this.props.modalState.type === ActionType.edit ? (
+                    <>Edit User Form</>
+                  ) : (
+                    <>Add User Form</>
+                  ))}
+
+                <button className="close-btn" onClick={this.props.onCloseModal}>
                   ✖
                 </button>
               </div>
 
-              <form onSubmit={this.handleSubmit} className="modal-body">
+              <form className="modal-body" onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <label>Name:</label>
                   <input
@@ -154,7 +174,7 @@ class AddUser extends Component<Props, State> {
                   <button
                     type="button"
                     className="cancel-btn"
-                    onClick={this.closeButton}
+                    onClick={this.props.onCloseModal}
                   >
                     Cancel
                   </button>
@@ -171,4 +191,4 @@ class AddUser extends Component<Props, State> {
   }
 }
 
-export default AddUser;
+export default UserForm;
